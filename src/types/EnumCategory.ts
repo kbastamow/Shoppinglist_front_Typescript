@@ -19,6 +19,6 @@ export enum EnumCategory {
     grains = "Grains",
     rice = "Rice",
     condimentsAndSauces = "Condiments & Sauces",
-    
+    other = "Other"   
 }
 

@@ -10,20 +10,19 @@ import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import { ICreateNewList } from "../../types/interfaces/ICreateNewList";
 
-interface IHeader {
-    username: string
-}
+// interface IHeader {
+//     username: string
+// }
 
 
-const Header: FC<IHeader> = (props): ReactElement => {
-const {username = 'shopper'} = props 
+const Header: FC = (): ReactElement => {
 const [title, setTitle] = useState<string>("")
 const [open, setOpen] = useState<boolean>(false);
 const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
 
 const handleCreateList = () => {
-    let newList: ICreateNewList = { title: "My list" } 
+    const newList: ICreateNewList = { title: "My list" } 
     if (title !== "") {
         newList.title = title
     }
@@ -44,6 +43,9 @@ return (
       </Box>
       </Container>
     </Dialog>
+      <Link to="/lists">
+        <Button color="inherit">Active lists</Button>
+                </Link>
         <Link to="/lists">
         <Button color="inherit">Old lists</Button>
                 </Link>

@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState, useEffect } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import CategoryTag from '../categoryTag/CategoryTag';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -8,37 +8,36 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone';
+import { IListItem } from '../../types/interfaces/IListItem';
 
 interface IListEntry {
-    item: string;
+    item: IListItem;
     onDelete: () => void;
     onEdit: () => void
 }
 
 const ListEntry: FC<IListEntry> = (props): ReactElement => {
 
-    const { item = 'item', onDelete, onEdit } = props;
+    const { item, onDelete, onEdit } = props;
     const [checked, setChecked] = useState<boolean>(false);
 
     const [isInput, setIsInput] = useState<boolean>(false);
 
-    const [itemValue, setItemValue] = useState<string>(item)
-
+    const [itemValue, setItemValue] = useState<string>(item.name)
 
     const handleEdit = () => {
         setIsInput(!isInput)
         console.log(item)
         console.log(itemValue)
-        if(itemValue !== item) {
+        if(itemValue !== item.name) {
         onEdit()
         }
     }
 
-
     return (
         <>
             <ListItem
-                key={item}
+                key={item.id}
                 disablePadding
                 secondaryAction={
                     <IconButton
@@ -55,7 +54,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                     checked={checked}
                     onChange={() => setChecked(!checked)}
                     inputProps={{
-                        'aria-labelledby': item,
+                        'aria-labelledby': item.id,
                     }}
                 />
 
@@ -64,8 +63,8 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                         onClick={() => setIsInput(!isInput)}
                         >
                         <ListItemText
-                            id={item}
-                            primary={item}
+                            id={item.name}
+                            primary={item.name}
                         />
                     </ListItemButton>
                 ) : (
