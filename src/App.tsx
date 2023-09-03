@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import OneList from './pages/OneList';
 import Home from './pages/Home';
 import ActiveLists from './pages/ActiveLists';
+import ShoppingComplete from './pages/ShoppingComplete';
 
 //Create a query client
 const queryClient = new QueryClient()
@@ -39,6 +40,7 @@ const App: FC = (): ReactElement => {
     <Route path="/lists" element={<ActiveLists />} />
     <Route path="/lists/old" element={<OldLists />} />
     <Route path="/lists/:listId" element={<OneList />} />
+    <Route path="/shoppingComplete" element={<ShoppingComplete />} />
     </Routes>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>

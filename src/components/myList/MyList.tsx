@@ -17,6 +17,9 @@ import { apiRequest } from "../../services/apiRequest";
 
 import { IList } from "../../types/interfaces/IList";
 import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
+import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
+import { IUpdateList } from "../../types/interfaces/IUpdateList";
+import { useNavigate } from "react-router";
 // import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 const API_URL = 'http://localhost:3500';
 
@@ -28,6 +31,7 @@ const API_URL = 'http://localhost:3500';
 
 const MyList: FC<IList> = (props): ReactElement => {
   console.log("RENDERING")
+  const navigate = useNavigate()
 
     const { 
       title = "My List",
@@ -48,7 +52,7 @@ const MyList: FC<IList> = (props): ReactElement => {
 
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
-  const [total, setTotal] = useState<number>(0);
+  const [total, setTotal] = useState<string>("0");
   const [helperText, setHelperText] = useState<string>("");
 
  const createDeleteMutation = useMutation(
@@ -110,6 +114,20 @@ const MyList: FC<IList> = (props): ReactElement => {
     }
   )
 
+  const createFinishListMutation = useMutation(
+    async(total: number) => {
+      const updateResponse = await apiRequest<IUpdateList>(
+      `${API_URL}/lists/${listId}`,
+          'PUT',
+        {active: false, total: total}
+      )
+      if (updateResponse) {
+        navigate("/shoppingComplete")
+      }
+    }
+  )
+
+
   const addItem = () => {
     if (newItem.trim() !== "") {
       createAddItemMutation.mutate({name:newItem, listId: listId})
@@ -128,27 +146,22 @@ const MyList: FC<IList> = (props): ReactElement => {
   };
 
   const handleFinish = () => {
-    if (typeof +total === "number" && +total !== 0) {
-      console.log(+total);
+    console.log(total)
+    const totalNumber = +total
+    if (!isNaN(totalNumber) && totalNumber !== 0) {
+        totalNumber.toFixed(2)
+        console.log("ready to finish"); 
+        createFinishListMutation.mutate(parseFloat(totalNumber.toFixed(2)))
+        setHelperText("");
+      } else {
+        setHelperText(
+          "Valid format: 19.99",
+        )
+      }
     }
-  };
+  
 
-  const handleTotalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const pattern = /^[0-9.]+$/;
-
-    console.log(
-      e.target.value.length || 
-        !pattern.test(e.target.value),
-    );
-    if (e.target.value.length > 5) {
-      setHelperText(
-        "Valid format: 19.99",
-      );
-    } else {
-      setHelperText("");
-    }
-    setTotal(+e.target.value);
-  };
+ 
 
   return (
     <Container
@@ -164,7 +177,7 @@ const MyList: FC<IList> = (props): ReactElement => {
       </Box>
       <Box
         sx={{ height: "60vh", overflow: "auto", display: "flex",
-        justifyContent: "center", // Horizontally center the content
+        justifyContent: "center",
         alignItems: "center",  }}
       >
         <List
@@ -206,7 +219,9 @@ const MyList: FC<IList> = (props): ReactElement => {
               label="Total"
               helperText={helperText}
               value={total}
-              onChange={(e) => handleTotalChange(e as React.ChangeEvent<HTMLInputElement>)}
+              onChange = {(e) =>setTotal(e.target.value)}
+
+              // onChange={(e) => handleTotalChange(e as React.ChangeEvent<HTMLInputElement>)}
             />
             <Button
               sx={{ m: 2 }}
