@@ -45,46 +45,11 @@ const MyList: FC<IList> = (props): ReactElement => {
           } = props; //giving id a new name
     
     const [items, setItems] = useState<IListItem[]>(listItems)
-      // [
-      //   {
-      //     id: "id",
-      //     name: "Bread",
-      //     collected: false,
-      //     category: {
-      //       name: "No Category"
-      //     },
-      //   },
-      //   {
-      //     id: "id2",
-      //     name: "Butter",
-      //     collected: false,
-      //     category: {
-      //       name: "No Category"
-      //     },
-      //   },
-      // ]);
 
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
   const [total, setTotal] = useState<number>(0);
   const [helperText, setHelperText] = useState<string>("");
-
-
-//   const { error, isLoading, data, refetch } = useQuery(
-//     ['items'],
-//     async () => {
-//       return await apiRequest<IListItem[]>(
-//         `${API_URL}/items/${listId}`,
-//         'GET',
-//       );
-//     },
-//     // { refetchOnWindowFocus: false },
-//     { enabled: false}
-// )
-// if (data) { 
-//     console.log(data)
-//     setItems(data)
-// }
 
  const createDeleteMutation = useMutation(
   async(item: IListItem) => {
@@ -128,10 +93,11 @@ const MyList: FC<IList> = (props): ReactElement => {
 
   const createUpdateItemMutation = useMutation(
     async (data: IListItem) => {
+      console.log(data)
       const updateResponse = await apiRequest<IListItem>(
           `${API_URL}/items/${data.id}`,
           'PUT',
-           {name: data.name}
+           {...data}
           );
           console.log(updateResponse)
           if (updateResponse) {
@@ -144,37 +110,11 @@ const MyList: FC<IList> = (props): ReactElement => {
     }
   )
 
-
-
   const addItem = () => {
     if (newItem.trim() !== "") {
       createAddItemMutation.mutate({name:newItem, listId: listId})
     }
   };
-
-
-
-//   const renderListItems = () => {
-//     return items?.length < 1 ? <p>No items</p> : (
-//       items?.map((item) => (
-//         <>
-//           <Fragment key={item.id}>
-//             <ListEntry
-//               item={item}
-//               onDelete={() => handleDeleteItem(item.name)}
-//               onEdit={() => handleEditItem(item.name)}
-//             >
-//             </ListEntry>
-//             <Divider></Divider>
-//           </Fragment>
-//         </>
-//       ))
-//     );
-//   };
-
-//   useEffect(() => {
-//     renderListItems();
-//   }, [items]);
 
   const handleDeleteItem = (
     item: IListItem,
@@ -210,31 +150,6 @@ const MyList: FC<IList> = (props): ReactElement => {
     setTotal(+e.target.value);
   };
 
-
-// useEffect(() => {
-//     refetch()
-// }, [listId] )
-
-// const isMounted = useRef(true);
-
-// useEffect(() => {
-//   if (isMounted.current) {
-//     // This block will only execute on the initial mount
-//     refetch();
-//     isMounted.current = false; // Set to false after the initial mount
-//   }
-// }, []);
-
-// const [dataFetched, setDataFetched] = useState(false);
-
-// useEffect(() => {
-//   if (!dataFetched) {
-//     // refetch();
-//     setDataFetched(true); // Set to true after the initial fetch
-//   }
-// }, [dataFetched, refetch]);
-
-
   return (
     <Container
       sx={{ mt: 7 }}
@@ -248,7 +163,9 @@ const MyList: FC<IList> = (props): ReactElement => {
         <Button onClick={addItem}>Add item</Button>
       </Box>
       <Box
-        sx={{ height: "60vh", overflow: "auto" }}
+        sx={{ height: "60vh", overflow: "auto", display: "flex",
+        justifyContent: "center", // Horizontally center the content
+        alignItems: "center",  }}
       >
         <List
           sx={{

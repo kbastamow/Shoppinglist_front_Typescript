@@ -19,7 +19,7 @@ interface IListEntry {
 const ListEntry: FC<IListEntry> = (props): ReactElement => {
 
     const { item, onDelete, onEdit } = props;
-    const [checked, setChecked] = useState<boolean>(false);
+    const [checked, setChecked] = useState<boolean>(item.collected || false);
 
     const [isInput, setIsInput] = useState<boolean>(false);
 
@@ -31,6 +31,12 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
         onEdit({...item, name: itemValue }) //passing argument back to parent
         }
         setIsInput(!isInput)
+    }
+
+    const handleCheck = () => {
+        console.log(checked)
+        onEdit({...item, collected: !checked })
+        setChecked(!checked)
     }
 
     return (
@@ -51,7 +57,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                 <Checkbox
                     edge="start"
                     checked={checked}
-                    onChange={() => setChecked(!checked)}
+                    onChange={handleCheck}
                     inputProps={{
                         'aria-labelledby': item.id,
                     }}

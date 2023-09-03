@@ -73,7 +73,7 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
   const createUpdateCategoryMutation = useMutation(
     async (data: IUpdateItem) => {
       const categoryResponse = await apiRequest<IListItem>(
-          `${API_URL}/items/${data.id}`,
+          `${API_URL}/items/category/${data.id}`,
           'PUT',
           {category: data.category}
           );
