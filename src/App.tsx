@@ -3,12 +3,12 @@ import './App.css'
 import Header from './components/header/Header'
 import { Route, Routes, Navigate } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
-import MyList from './pages/MyList';
+import MyList from './components/myList/MyList';
 import OldLists from './pages/OldLists';
 import LoginPage from './pages/LoginPage';
 import {QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import OneList from './components/list/OneList';
+import OneList from './pages/OneList';
 import Home from './pages/Home';
 import ActiveLists from './pages/ActiveLists';
 

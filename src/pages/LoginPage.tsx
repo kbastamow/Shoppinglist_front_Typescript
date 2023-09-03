@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
 import { TextField, Box, Typography, Button } from '@mui/material';
 import { ILoginData } from '../types/interfaces/ILoginData';
-import { apiRequest } from '../helpers/apiRequest';
+import { apiRequest } from '../services/apiRequest';
 import { useMutation } from '@tanstack/react-query';
 import { IUserProfile } from '../types/interfaces/IUserProfile';
 import { useNavigate } from 'react-router';

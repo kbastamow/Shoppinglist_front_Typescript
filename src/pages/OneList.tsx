@@ -1,9 +1,9 @@
 
-import { apiRequest } from '../../helpers/apiRequest';
-import { IList } from '../../types/interfaces/IList';
+import { apiRequest } from '../services/apiRequest';
+import { IList } from '../types/interfaces/IList';
 import { useParams } from "react-router-dom"
 import { useQuery } from '@tanstack/react-query';
-import MyList from '../../pages/MyList';
+import MyList from '../components/myList/MyList';
 const API_URL = 'http://localhost:3500';
 
 

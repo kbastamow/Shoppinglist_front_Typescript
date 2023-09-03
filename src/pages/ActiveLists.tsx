@@ -1,5 +1,5 @@
 import React from 'react'
-import { apiRequest } from '../helpers/apiRequest';
+import { apiRequest } from '../services/apiRequest';
 import { Box, Stack } from '@mui/material';
 import { IList } from '../types/interfaces/IList';
 import { useQuery } from '@tanstack/react-query';

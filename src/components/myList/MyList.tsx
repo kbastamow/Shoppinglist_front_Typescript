@@ -1,5 +1,5 @@
-import { FC, Fragment, ReactElement, useEffect, useState } from "react";
-import ListEntry from "../components/listEntry/ListEntry";
+import { FC, Fragment, ReactElement, useState } from "react";
+import ListEntry from "../listEntry/ListEntry";
 import {
   Box,
   Button,
@@ -10,12 +10,14 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { IListItem } from "../types/interfaces/IListItem";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { IAddItem } from "../types/interfaces/IAddItem";
-import { apiRequest } from "../helpers/apiRequest";
-import { IItem } from "../types/interfaces/IItem";
-import { IList } from "../types/interfaces/IList";
+import { IListItem } from "../../types/interfaces/IListItem";
+import { useMutation } from "@tanstack/react-query";
+import { IAddItem } from "../../types/interfaces/IAddItem";
+import { apiRequest } from "../../services/apiRequest";
+
+import { IList } from "../../types/interfaces/IList";
+import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
+// import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 const API_URL = 'http://localhost:3500';
 
 
@@ -25,26 +27,42 @@ const API_URL = 'http://localhost:3500';
 // }
 
 const MyList: FC<IList> = (props): ReactElement => {
-    const { title = "My List",  id: listId } = props; //giving id a new name
+  console.log("RENDERING")
+
+    const { 
+      title = "My List",
+      id: listId,
+      items: listItems = [
+          {
+            id: "id",
+            name: "Bread",
+            collected: false,
+            category: {
+              name: "No Category"
+            }
+          }
+          ]
+          } = props; //giving id a new name
     
-    const [items, setItems] = useState<IListItem[]>([
-        {
-          id: "id",
-          name: "Bread",
-          collected: false,
-          category: {
-            name: "No Category"
-          },
-        },
-        {
-          id: "id2",
-          name: "Butter",
-          collected: false,
-          category: {
-            name: "No Category"
-          },
-        },
-      ]);
+    const [items, setItems] = useState<IListItem[]>(listItems)
+      // [
+      //   {
+      //     id: "id",
+      //     name: "Bread",
+      //     collected: false,
+      //     category: {
+      //       name: "No Category"
+      //     },
+      //   },
+      //   {
+      //     id: "id2",
+      //     name: "Butter",
+      //     collected: false,
+      //     category: {
+      //       name: "No Category"
+      //     },
+      //   },
+      // ]);
 
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
@@ -52,40 +70,53 @@ const MyList: FC<IList> = (props): ReactElement => {
   const [helperText, setHelperText] = useState<string>("");
 
 
-  const { error, isLoading, data, refetch } = useQuery(
-    ['items'],
-    async () => {
-      return await apiRequest<IListItem[]>(
-        `${API_URL}/items/${listId}`,
-        'GET',
-      );
-    },
-    // { refetchOnWindowFocus: false },
-    { enabled: false}
-)
-if (data) { 
-    console.log(data)
-    // setItems(data)
-}
+//   const { error, isLoading, data, refetch } = useQuery(
+//     ['items'],
+//     async () => {
+//       return await apiRequest<IListItem[]>(
+//         `${API_URL}/items/${listId}`,
+//         'GET',
+//       );
+//     },
+//     // { refetchOnWindowFocus: false },
+//     { enabled: false}
+// )
+// if (data) { 
+//     console.log(data)
+//     setItems(data)
+// }
 
-
+ const createDeleteMutation = useMutation(
+  async(item: IListItem) => {
+    const deleteResponse = await apiRequest<IDeleteItem>(
+      `${API_URL}/items/${item.id}`,
+      'DELETE'
+    )
+   if (deleteResponse) {
+    const updatedItems = items.filter(
+      (element) => element.name !== item.name,
+    );
+    setItems(updatedItems);
+   }
+  }
+ )
  
   const createAddItemMutation = useMutation(
     async (data: IAddItem) => {
-        const itemResponse = await apiRequest<IItem>(
+        const itemResponse = await apiRequest<IListItem>(
             `${API_URL}/items`,
             'POST',
             data
         )
 
-        const result = itemResponse.item
-
+        console.log(itemResponse)
         if (itemResponse) {
+         
             setItems((prevItems) => ([
                 {
-                  id: result.id,
-                  name: result.name,
-                  collected: result.collected,
+                  id: itemResponse.id,
+                  name: itemResponse.name,
+                  collected: itemResponse.collected,
                   category: "No Category",
                 },
                 ...prevItems,
@@ -94,6 +125,26 @@ if (data) {
             }
         }
   )
+
+  const createUpdateItemMutation = useMutation(
+    async (data: IListItem) => {
+      const updateResponse = await apiRequest<IListItem>(
+          `${API_URL}/items/${data.id}`,
+          'PUT',
+           {name: data.name}
+          );
+          console.log(updateResponse)
+          if (updateResponse) {
+           
+            const updatedIndex = items.findIndex(element => element.id === data.id);
+            const updatedItems = [...items]; 
+            updatedItems[updatedIndex].name = updateResponse.name;
+            setItems(updatedItems);
+          }
+    }
+  )
+
+
 
   const addItem = () => {
     if (newItem.trim() !== "") {
@@ -126,22 +177,19 @@ if (data) {
 //   }, [items]);
 
   const handleDeleteItem = (
-    itemToDelete: string,
+    item: IListItem,
   ): void => {
-    const updatedItems = items.filter(
-      (item) => item.name !== itemToDelete,
-    );
-    setItems(updatedItems);
+    createDeleteMutation.mutate(item)
   };
 
-  const handleEditItem = (itemToEdit: string): void => {
-    console.log("Edit item:", itemToEdit);
+  const handleEditItem = (editedItem:IListItem): void => {
+    createUpdateItemMutation.mutate(editedItem)
+    console.log("Edit item:", editedItem.name);
   };
 
   const handleFinish = () => {
     if (typeof +total === "number" && +total !== 0) {
       console.log(+total);
-      console.log("finish");
     }
   };
 
@@ -163,9 +211,28 @@ if (data) {
   };
 
 
-useEffect(() => {
-    refetch()
-}, [] )
+// useEffect(() => {
+//     refetch()
+// }, [listId] )
+
+// const isMounted = useRef(true);
+
+// useEffect(() => {
+//   if (isMounted.current) {
+//     // This block will only execute on the initial mount
+//     refetch();
+//     isMounted.current = false; // Set to false after the initial mount
+//   }
+// }, []);
+
+// const [dataFetched, setDataFetched] = useState(false);
+
+// useEffect(() => {
+//   if (!dataFetched) {
+//     // refetch();
+//     setDataFetched(true); // Set to true after the initial fetch
+//   }
+// }, [dataFetched, refetch]);
 
 
   return (
@@ -195,8 +262,8 @@ useEffect(() => {
           <Fragment key={item.id}>
             <ListEntry
               item={item}
-              onDelete={() => handleDeleteItem(item.name)}
-              onEdit={() => handleEditItem(item.name)}
+              onDelete={() => handleDeleteItem(item)}
+              onEdit={(editedItem) => handleEditItem(editedItem)}
             >
             </ListEntry>
             <Divider></Divider>
@@ -234,7 +301,7 @@ useEffect(() => {
           </Stack>
         )}
     </Container>
-  );
-};
+  )
+}
 
 export default MyList;

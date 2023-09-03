@@ -1,3 +1,6 @@
+import { IListItem } from "./IListItem"
+
+
 export interface IList {
     id: string
     title: string
@@ -5,7 +8,7 @@ export interface IList {
     active: boolean
     total?: number
     user?: object
-    items?: object[]
+    items?: IListItem[]
     createdAt?: string
     updatedAt?: string
 }

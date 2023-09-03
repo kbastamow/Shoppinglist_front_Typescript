@@ -13,7 +13,7 @@ import { IListItem } from '../../types/interfaces/IListItem';
 interface IListEntry {
     item: IListItem;
     onDelete: () => void;
-    onEdit: () => void
+    onEdit: (editedItem: IListItem) => void
 }
 
 const ListEntry: FC<IListEntry> = (props): ReactElement => {
@@ -26,12 +26,11 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
     const [itemValue, setItemValue] = useState<string>(item.name)
 
     const handleEdit = () => {
-        setIsInput(!isInput)
-        console.log(item)
-        console.log(itemValue)
+        console.log(item.name)
         if(itemValue !== item.name) {
-        onEdit()
+        onEdit({...item, name: itemValue }) //passing argument back to parent
         }
+        setIsInput(!isInput)
     }
 
     return (
@@ -64,7 +63,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                         >
                         <ListItemText
                             id={item.name}
-                            primary={item.name}
+                            primary={itemValue}
                         />
                     </ListItemButton>
                 ) : (
@@ -72,7 +71,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                     <TextField
                         margin="none"
                         id="edit-item"
-                        defaultValue={item}
+                        // defaultValue={itemValue}
                         onChange={(e) => setItemValue(e.target.value)}
                         size="small"
                     ></TextField>
@@ -85,7 +84,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                 </>
                 )}
 
-                <CategoryTag itemId = {item.id}></CategoryTag>
+                <CategoryTag itemId = {item.id} catName = {item.category?.name ?? "No Category"}></CategoryTag>
             </ListItem>
         </>
     );

@@ -9,7 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "../../helpers/apiRequest";
+import { apiRequest } from "../../services/apiRequest";
 import { INewList } from "../../types/interfaces/INewList";
 const API_URL = 'http://localhost:3500';
 // interface IHeader {
