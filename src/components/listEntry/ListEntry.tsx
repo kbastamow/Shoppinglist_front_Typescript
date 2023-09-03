@@ -85,7 +85,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
                 </>
                 )}
 
-                <CategoryTag></CategoryTag>
+                <CategoryTag itemId = {item.id}></CategoryTag>
             </ListItem>
         </>
     );

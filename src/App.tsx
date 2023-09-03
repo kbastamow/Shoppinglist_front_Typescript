@@ -8,6 +8,9 @@ import OldLists from './pages/OldLists';
 import LoginPage from './pages/LoginPage';
 import {QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import OneList from './components/list/OneList';
+import Home from './pages/Home';
+import ActiveLists from './pages/ActiveLists';
 
 //Create a query client
 const queryClient = new QueryClient()
@@ -31,9 +34,11 @@ const App: FC = (): ReactElement => {
     <Routes>
     <Route path="/login" element= {isAuthenticated() ? <Navigate to="/list" /> : <LoginPage/> } />
     <Route 
-    path="/list" 
-    element={isAuthenticated() ? <MyList title={"My List"} /> : <Navigate to="/login" /> } />
-    <Route path="/lists" element={<OldLists />} />
+    path="/home" 
+    element={isAuthenticated() ? <Home/> : <Navigate to="/login" /> } />
+    <Route path="/lists" element={<ActiveLists />} />
+    <Route path="/lists/old" element={<OldLists />} />
+    <Route path="/lists/:listId" element={<OneList />} />
     </Routes>
     </BrowserRouter>
     <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>

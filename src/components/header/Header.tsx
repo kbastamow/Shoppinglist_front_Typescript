@@ -4,29 +4,51 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import TextField from '@mui/material/TextField';
 import Container from '@mui/material/Container';
-import { ICreateNewList } from "../../types/interfaces/ICreateNewList";
-
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "../../helpers/apiRequest";
+import { INewList } from "../../types/interfaces/INewList";
+const API_URL = 'http://localhost:3500';
 // interface IHeader {
 //     username: string
 // }
 
+interface INewListData {
+  title: string
+}
 
 const Header: FC = (): ReactElement => {
+const navigate = useNavigate()
 const [title, setTitle] = useState<string>("")
 const [open, setOpen] = useState<boolean>(false);
 const handleOpen = () => setOpen(true);
 const handleClose = () => setOpen(false);
 
+const createNewListMutation = useMutation(
+  async (data: INewListData) => {
+    const newListResponse = await apiRequest<INewList> (
+        `${API_URL}/lists`,
+        'POST',
+        data
+        );
+
+    if (newListResponse) {
+      console.log(newListResponse)
+      handleClose()
+      navigate(`/lists/${newListResponse.list.id}`)
+    }
+  }
+)
+
 const handleCreateList = () => {
-    const newList: ICreateNewList = { title: "My list" } 
+    const newList: INewListData = { title: "My list" } 
     if (title !== "") {
         newList.title = title
     }
-    console.log(newList)
+    createNewListMutation.mutate(newList);
 }
 
 return (
@@ -46,7 +68,7 @@ return (
       <Link to="/lists">
         <Button color="inherit">Active lists</Button>
                 </Link>
-        <Link to="/lists">
+        <Link to="/lists/old">
         <Button color="inherit">Old lists</Button>
                 </Link>
           <Button color="inherit">Logout</Button>

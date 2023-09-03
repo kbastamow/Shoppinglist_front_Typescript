@@ -4,9 +4,13 @@ import ListItem from '@mui/material/ListItem';
 import * as React from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Box, Chip } from '@mui/material';
+import { Chip } from '@mui/material';
 import { EnumCategory } from '../../types/EnumCategory';
-
+import { useMutation } from '@tanstack/react-query';
+import { apiRequest } from '../../helpers/apiRequest';
+import { IUpdateItem } from '../../types/interfaces/IUpdateItem';
+import { IItem } from '../../types/interfaces/IItem';
+const API_URL = 'http://localhost:3500';
 
 
 const categories = Object.values(EnumCategory)
@@ -51,18 +55,44 @@ function SimpleDialog(props: SimpleDialogProps) {
 }
 
 
-const CategoryTag: FC = (): ReactElement => {
+const CategoryTag: FC<string> = ({itemId}): ReactElement => {
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState("No category");
+  console.log(itemId)
+
+  const createUpdateCategoryMutation = useMutation(
+    async (data: IUpdateItem) => {
+      console.log(data.id)
+      console.log(data.category)
+      const categoryResponse = await apiRequest<IItem>(
+          `${API_URL}/items/${data.id}`,
+          'PUT',
+          {category: data.category}
+          );
+
+        if(categoryResponse) {
+          console.log(categoryResponse)
+        }
+    }
+  )
 
   const handleClickOpen = () => {
-    console.log("click catgory chip")
+    console.log("click category chip")
     setOpen(true);
   };
 
   const handleClose = (value: string) => {
     setOpen(false);
+    console.log(value)
+
+    if(value !== selectedValue) { 
+    const data = {
+      category: value,
+      id: itemId
+    }
+    createUpdateCategoryMutation.mutate(data)
     setSelectedValue(value);
+  }
   };
 
   return (

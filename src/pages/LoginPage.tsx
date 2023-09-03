@@ -19,9 +19,9 @@ const navigate = useNavigate()
             );
           if (loginResponse.token) {
             localStorage.setItem("token-shoppinglist", loginResponse.token);
+            navigate("/home")
           }
-          navigate("/list")
-
+        
           // return loginResponse
         },
       );
