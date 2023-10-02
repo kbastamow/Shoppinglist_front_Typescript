@@ -18,7 +18,7 @@ export async function apiRequest<T>(
       'Authorization': token,
     },
   };
-//Add body for non-get functions
+  //Add body for non-get functions
   if (method !== 'GET') {
     requestOptions.body = JSON.stringify(data);
   }
@@ -30,8 +30,8 @@ export async function apiRequest<T>(
     throw new Error(message);
   }
   console.log(response)
-  const apiResponse = await response.json() as T;
-  console.log(apiResponse);
+  const apiResponse = await response.json() as Promise<T>;
+  console.log("apiResponse:", apiResponse);
   return apiResponse;
 }
 
