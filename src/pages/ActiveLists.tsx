@@ -1,6 +1,6 @@
 import React from "react";
 import { apiRequest } from "../services/apiRequest";
-import { Box, Stack } from "@mui/material";
+import { Box, LinearProgress, Stack } from "@mui/material";
 import { IList } from "../types/interfaces/IList";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
@@ -10,7 +10,7 @@ const API_URL = "http://localhost:3500";
 const ActiveLists = () => {
   const navigate = useNavigate();
   const { error, isLoading, data } = useQuery(
-    ["active lists"],
+    ["lists"],
     async () => {
       return await apiRequest<IList[]>(
         `${API_URL}/lists`,
@@ -20,8 +20,14 @@ const ActiveLists = () => {
     { refetchOnWindowFocus: false },
   );
 
-  if (error) return <div>Error displaying list</div>;
-  if (isLoading) return <div>Loading</div>;
+  if (error) return <div>Error displaying lists</div>;
+  if (isLoading) {
+    return (
+      <Box sx={{ width: "100%" }}>
+        <LinearProgress />
+      </Box>
+    );
+  }
 
   return (
     <>

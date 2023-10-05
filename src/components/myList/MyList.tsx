@@ -1,4 +1,4 @@
-import { FC, Fragment, ReactElement, useState } from "react";
+import { FC, Fragment, ReactElement, useEffect, useState } from "react";
 import ListEntry from "../listEntry/ListEntry";
 import {
   Box,
@@ -45,13 +45,17 @@ const MyList: FC<IList> = (props): ReactElement => {
   } = props; //giving id a new name
 
   const [finishOption, setFinishOption] = useState("removeEmpty");
-  const [items, setItems] = useState<IListItem[]>(listItems);
+  const [items, setItems] = useState<IListItem[] | []>([]);
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
   const [total, setTotal] = useState<string>("0");
   const [helperText, setHelperText] = useState<string>("");
 
   console.log("ITEMS:", items);
+
+  useEffect(() => {
+    setItems(listItems);
+  }, [listItems]);
 
   const createDeleteMutation = useMutation(
     async (item: IListItem) => {
@@ -212,7 +216,7 @@ const MyList: FC<IList> = (props): ReactElement => {
           }}
           subheader={<ListSubheader>{title}</ListSubheader>}
         >
-          {!items
+          {(!items || items.length === 0)
             ? <p>No items</p>
             : items.map((item) => (
               <Fragment key={item.id}>
@@ -224,7 +228,7 @@ const MyList: FC<IList> = (props): ReactElement => {
                 </ListEntry>
                 <Divider></Divider>
               </Fragment>
-            ))};
+            ))}
         </List>
       </Box>
       <Button

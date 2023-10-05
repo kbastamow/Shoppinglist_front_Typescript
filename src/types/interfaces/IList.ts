@@ -8,7 +8,7 @@ export interface IList {
     active: boolean
     total?: number
     user?: object
-    items?: IListItem[]
+    items: IListItem[] | []
     createdAt?: string
     updatedAt?: string
 }

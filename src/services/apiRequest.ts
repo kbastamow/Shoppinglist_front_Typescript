@@ -29,14 +29,7 @@ export async function apiRequest<T>(
     const message = `An error has occurred: ${response.status}`;
     throw new Error(message);
   }
-  console.log(response)
   const apiResponse = await response.json() as Promise<T>;
   console.log("apiResponse:", apiResponse);
   return apiResponse;
 }
-
-
-// export async function loginRequest(data: ILoginData): Promise<IUserProfile> {
-//   console.log('Loggin in');
-//   return apiRequest(`${API_URL}users/login`, 'POST', data)
-// }
