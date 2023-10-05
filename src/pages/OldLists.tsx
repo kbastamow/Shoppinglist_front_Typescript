@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { FC, ReactElement, useRef, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { apiRequest } from "../services/apiRequest";
 import { IList } from "../types/interfaces/IList";
 import { Box, Collapse, LinearProgress, Stack } from "@mui/material";
@@ -7,9 +7,6 @@ import { dateConverter } from "../helpers/dateConverter";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import OldItems from "../components/oldItems/OldItems";
 
 const API_URL = "http://localhost:3500";
@@ -32,8 +29,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const OldLists: FC = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
   const [isOpenCollapse, setIsOpenCollapse] = useState(null);
-  const oldItemsRef = useRef(null);
-  console.log(oldItemsRef);
+
   const { error, isLoading, data } = useQuery(
     ["lists"],
     async () => {
@@ -45,18 +41,11 @@ const OldLists: FC = (): ReactElement => {
     { refetchOnWindowFocus: false },
   );
 
-  const oldItemsComponent = (listId) => {
-    console.log("here we go", listId);
-    return <OldItems listId={listId} />;
-  };
-
-  const handleExpandClick = (index, listId) => {
+  const handleExpandClick = (index) => {
     if (isOpenCollapse === index) {
       setIsOpenCollapse(null);
-      oldItemsRef.current = null;
     } else {
       setIsOpenCollapse(index);
-      oldItemsRef.current = listId;
     }
   };
 
@@ -111,7 +100,7 @@ const OldLists: FC = (): ReactElement => {
                 timeout="auto"
                 unmountOnExit
               >
-                {oldItemsRef.current === list.id && oldItemsComponent(list.id)}
+                {isOpenCollapse === index && <OldItems listId={list.id} />}
               </Collapse>
             </Box>
           </>
