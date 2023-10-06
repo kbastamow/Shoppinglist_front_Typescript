@@ -1,4 +1,11 @@
-import { FC, Fragment, ReactElement, useEffect, useState } from "react";
+import {
+  FC,
+  Fragment,
+  ReactElement,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import ListEntry from "../listEntry/ListEntry";
 import {
   Box,
@@ -23,6 +30,7 @@ import { IList } from "../../types/interfaces/IList";
 import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
 import { IUpdateList } from "../../types/interfaces/IUpdateList";
 import { useNavigate } from "react-router";
+import { ItemContext } from "../../context/ItemContext/ItemContext";
 
 const API_URL = "http://localhost:3500";
 
@@ -41,15 +49,20 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
   } = props; //giving id a new name
 
   const [finishOption, setFinishOption] = useState("removeEmpty");
-  const [items, setItems] = useState<IListItem[] | []>([]);
+  // const [items, setItems] = useState<IListItem[] | []>([]);
+  const { items, updateItems } = useContext(ItemContext);
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
   const [total, setTotal] = useState<string>("0");
   const [helperText, setHelperText] = useState<string>("");
 
   useEffect(() => {
-    setItems(listItems);
+    updateItems(listItems);
   }, [listItems]);
+
+  useEffect(() => {
+    console.log("items have changed:", items);
+  }, [items]);
 
   const createDeleteMutation = useMutation(
     async (item: IListItem) => {
@@ -59,9 +72,9 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       );
       if (deleteResponse) {
         const updatedItems = items.filter(
-          (element) => element.name !== item.name,
+          (element) => element.id !== item.id,
         );
-        setItems(updatedItems);
+        updateItems(updatedItems);
       }
     },
   );
@@ -73,19 +86,16 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         "POST",
         data,
       );
-
       if (itemResponse) {
-        setItems((prevItems) =>
-          [
-            {
-              id: itemResponse.id,
-              name: itemResponse.name,
-              collected: itemResponse.collected,
-              category: "No Category",
-            },
-            ...prevItems,
-          ] as IListItem[]
-        ); //Gotta add this or Typescript doubts the type
+        const updated = [{
+          id: itemResponse.id,
+          name: itemResponse.name,
+          collected: itemResponse.collected,
+          category: {
+            name: "No Category",
+          },
+        }, ...items];
+        updateItems(updated);
         setNewItem("");
       }
     },
@@ -105,7 +115,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         const updatedItems = [...items];
         updatedItems[updatedIndex].name = updateResponse.name;
         updatedItems[updatedIndex].collected = updateResponse.collected;
-        setItems(updatedItems);
+        updateItems(updatedItems);
       }
     },
   );
@@ -179,13 +189,13 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         return 0;
       }
     });
-    setItems(newOrder);
+    updateItems(newOrder);
   };
 
   const groupByCategory = () => {
     const newOrder = items.slice().sort((a, b) => {
-      const categoryA = a.category.name;
-      const categoryB = b.category.name;
+      const categoryA = a.category;
+      const categoryB = b.category;
       if (categoryA === null && categoryB === null) {
         return 0;
       } else if (categoryA === null) {
@@ -195,11 +205,11 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       } else {
         console.log(categoryA);
         console.log(categoryB);
-        return categoryA.localeCompare(categoryB);
+        return (categoryA.name).localeCompare(categoryB.name);
       }
     });
     console.log(newOrder);
-    setItems(newOrder);
+    updateItems(newOrder);
   };
 
   return (

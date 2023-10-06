@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ListWithItems from "../components/listWithItems/ListWithItems";
 import { Box, LinearProgress } from "@mui/material";
+import { ItemProvider } from "../context/ItemContext/ItemContext";
 const API_URL = "http://localhost:3500";
 
 const ListPage = () => {
@@ -29,7 +30,13 @@ const ListPage = () => {
   }
   //Stop old data from flashing when navigating different lists
   if (data?.id == listId) {
-    return <ListWithItems {...data as IList} />;
+    console.log(data.items);
+    console.log("Hello from listPage");
+    return (
+      <ItemProvider initialItems={data.items}>
+        <ListWithItems {...data as IList} />;
+      </ItemProvider>
+    );
   }
 };
 export default ListPage;

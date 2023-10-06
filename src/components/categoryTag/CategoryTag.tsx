@@ -1,4 +1,4 @@
-import { FC, ReactElement, useState } from "react";
+import { FC, ReactElement, useContext, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import * as React from "react";
@@ -11,6 +11,7 @@ import { apiRequest } from "../../services/apiRequest";
 import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 // import { IItem } from '../../types/interfaces/IItem';
 import { IListItem } from "../../types/interfaces/IListItem";
+import { ItemContext } from "../../context/ItemContext/ItemContext";
 const API_URL = "http://localhost:3500";
 
 interface CategoryProps {
@@ -62,6 +63,7 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
   const { itemId, catName } = props;
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = useState(catName);
+  const { items, updateItems } = useContext(ItemContext);
 
   const createUpdateCategoryMutation = useMutation(
     async (data: IUpdateItem) => {
@@ -73,6 +75,17 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
 
       if (categoryResponse) {
         console.log(categoryResponse);
+        const updated = items.map((item) => {
+          if (item.id === data.id) {
+            item.category = {
+              ...item.category,
+              name: categoryResponse.category.name,
+            };
+            return item;
+          }
+          return item;
+        });
+        updateItems(updated);
       }
     },
   );
@@ -87,8 +100,11 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
     console.log(value);
 
     if (value !== selectedValue) {
+      console.log(value);
       const data = {
-        category: value,
+        category: {
+          name: value,
+        },
         id: itemId,
       };
       createUpdateCategoryMutation.mutate(data);

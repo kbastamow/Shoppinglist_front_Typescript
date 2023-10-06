@@ -11,6 +11,7 @@ import ListPage from "./pages/ListPage";
 import Home from "./pages/Home";
 import ActiveLists from "./pages/ActiveLists";
 import ShoppingComplete from "./pages/ShoppingComplete";
+import { ItemProvider } from "./context/ItemContext/ItemContext";
 
 //Create a query client
 const queryClient = new QueryClient();
