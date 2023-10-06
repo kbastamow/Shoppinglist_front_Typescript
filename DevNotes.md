@@ -17,7 +17,7 @@ Alternative to PrivateZone function:
 ...
   <Route 
     path="/list" 
-    element={isAuthenticated() ? <MyList title={"My List"} /> : <Navigate to="/login" /> } />
+    element={isAuthenticated() ? <ListWithItems title={"My List"} /> : <Navigate to="/login" /> } />
 
 ```
 Though PrivateZone function is cleaner.

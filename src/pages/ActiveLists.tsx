@@ -32,16 +32,22 @@ const ActiveLists = () => {
   return (
     <>
       <div>ActiveLists</div>
-      <Stack spacing={2}>
+      <Stack spacing={2} direction="column" alignItems="center">
         {data?.filter((list) => list.active).map((list) => (
           <Box
-            component="span"
-            sx={{ p: 2, border: "1px solid grey", width: "75%" }}
+            sx={{
+              p: 2,
+              border: "1px solid red",
+              width: "75%",
+              display: "flex",
+              justifyContent: "start",
+              gap: 5,
+            }}
             key={list.id}
             onClick={() => navigate(`/lists/${list.id}`)}
           >
-            <span>{dateConverter(list.date)}</span>
-            <span>{list.title}</span>
+            <Box>{dateConverter(list.date)}</Box>
+            <Box>{list.title}</Box>
           </Box>
         ))}
       </Stack>

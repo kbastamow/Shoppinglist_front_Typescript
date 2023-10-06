@@ -67,12 +67,12 @@ const OldLists: FC = (): ReactElement => {
             <Box
               component="span"
               sx={{
-                p: 2,
+                p: 1,
                 border: "1px solid grey",
                 width: "90%",
               }}
               key={list.title}
-              onClick={() => handleExpandClick(index, list.id)}
+              onClick={() => handleExpandClick(index)}
             >
               <Box
                 sx={{

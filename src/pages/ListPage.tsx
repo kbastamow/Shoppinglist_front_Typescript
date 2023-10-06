@@ -2,11 +2,11 @@ import { apiRequest } from "../services/apiRequest";
 import { IList } from "../types/interfaces/IList";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import MyList from "../components/myList/MyList";
+import ListWithItems from "../components/listWithItems/ListWithItems";
 import { Box, LinearProgress } from "@mui/material";
 const API_URL = "http://localhost:3500";
 
-const OneList = () => {
+const ListPage = () => {
   const { listId } = useParams();
   const { error, isLoading, data } = useQuery(
     ["list"],
@@ -29,9 +29,7 @@ const OneList = () => {
   }
   //Stop old data from flashing when navigating different lists
   if (data?.id == listId) {
-    console.log(data);
-
-    return <MyList {...data as IList} />;
+    return <ListWithItems {...data as IList} />;
   }
 };
-export default OneList;
+export default ListPage;

@@ -3,12 +3,11 @@ import "./App.css";
 import Header from "./components/header/Header";
 import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter } from "react-router-dom";
-import MyList from "./components/myList/MyList";
 import OldLists from "./pages/OldLists";
 import LoginPage from "./pages/LoginPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import OneList from "./pages/OneList";
+import ListPage from "./pages/ListPage";
 import Home from "./pages/Home";
 import ActiveLists from "./pages/ActiveLists";
 import ShoppingComplete from "./pages/ShoppingComplete";
@@ -44,7 +43,7 @@ const App: FC = (): ReactElement => {
             />
             <Route path="/lists" element={<ActiveLists />} />
             <Route path="/lists/old" element={<OldLists />} />
-            <Route path="/lists/:listId" element={<OneList />} />
+            <Route path="/lists/:listId" element={<ListPage />} />
             <Route path="/shoppingComplete" element={<ShoppingComplete />} />
           </Routes>
         </BrowserRouter>

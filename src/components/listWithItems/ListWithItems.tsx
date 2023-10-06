@@ -19,14 +19,11 @@ import { IListItem } from "../../types/interfaces/IListItem";
 import { useMutation } from "@tanstack/react-query";
 import { IAddItem } from "../../types/interfaces/IAddItem";
 import { apiRequest } from "../../services/apiRequest";
-
 import { IList } from "../../types/interfaces/IList";
 import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
-import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 import { IUpdateList } from "../../types/interfaces/IUpdateList";
 import { useNavigate } from "react-router";
 
-// import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 const API_URL = "http://localhost:3500";
 
 // interface IListData {
@@ -34,8 +31,7 @@ const API_URL = "http://localhost:3500";
 //   listId: string
 // }
 
-const MyList: FC<IList> = (props): ReactElement => {
-  console.log("RENDERING");
+const ListWithItems: FC<IList> = (props): ReactElement => {
   const navigate = useNavigate();
 
   const {
@@ -50,8 +46,6 @@ const MyList: FC<IList> = (props): ReactElement => {
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
   const [total, setTotal] = useState<string>("0");
   const [helperText, setHelperText] = useState<string>("");
-
-  console.log("ITEMS:", items);
 
   useEffect(() => {
     setItems(listItems);
@@ -99,14 +93,11 @@ const MyList: FC<IList> = (props): ReactElement => {
 
   const createUpdateItemMutation = useMutation(
     async (data: IListItem) => {
-      console.log("data to update backend", data);
-      console.log(data.id);
       const updateResponse = await apiRequest<IListItem>(
         `${API_URL}/items/${data.id}`,
         "PUT",
         { ...data },
       );
-      console.log("Response", updateResponse);
       if (updateResponse) {
         const updatedIndex = items.findIndex((element) =>
           element.id === data.id
@@ -114,8 +105,6 @@ const MyList: FC<IList> = (props): ReactElement => {
         const updatedItems = [...items];
         updatedItems[updatedIndex].name = updateResponse.name;
         updatedItems[updatedIndex].collected = updateResponse.collected;
-
-        console.log("Items after update:", updatedItems);
         setItems(updatedItems);
       }
     },
@@ -148,26 +137,20 @@ const MyList: FC<IList> = (props): ReactElement => {
 
   const handleEditItem = (editedItem: IListItem): void => {
     createUpdateItemMutation.mutate(editedItem);
-    console.log("Edit item:", editedItem.name);
   };
 
   const handleFinish = async () => {
-    console.log(total);
     const totalNumber = +total;
     if (!isNaN(totalNumber) && totalNumber !== 0) {
       totalNumber.toFixed(2);
-      console.log("ready to finish");
 
       if (finishOption === "removeEmpty") {
         console.log("Remove unchecked");
-
         const itemsToDelete = items.filter((item) => !item.collected);
-        console.log(itemsToDelete);
         const updatePromises = itemsToDelete.map((item) =>
           createDeleteMutation.mutate(item)
         );
         const updateResult = await Promise.all(updatePromises);
-        console.log("After bulkdelete:", updateResult);
       } else {
         const allChecked = items.filter((item) => !item.collected).map((
           item,
@@ -176,7 +159,6 @@ const MyList: FC<IList> = (props): ReactElement => {
           createUpdateItemMutation.mutate(item)
         );
         const updateResult = await Promise.all(updatePromises);
-        console.log("After bulkupdate:", updateResult);
       }
       createFinishListMutation.mutate(parseFloat(totalNumber.toFixed(2)));
       setHelperText("");
@@ -187,17 +169,58 @@ const MyList: FC<IList> = (props): ReactElement => {
     }
   };
 
+  const sortUncheckedFirst = () => {
+    const newOrder = items.slice().sort((a, b) => {
+      if (a.collected && !b.collected) {
+        return 1;
+      } else if (!a.collected && b.collected) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+    setItems(newOrder);
+  };
+
+  const groupByCategory = () => {
+    const newOrder = items.slice().sort((a, b) => {
+      const categoryA = a.category.name;
+      const categoryB = b.category.name;
+      if (categoryA === null && categoryB === null) {
+        return 0;
+      } else if (categoryA === null) {
+        return 1;
+      } else if (categoryB === null) {
+        return -1;
+      } else {
+        console.log(categoryA);
+        console.log(categoryB);
+        return categoryA.localeCompare(categoryB);
+      }
+    });
+    console.log(newOrder);
+    setItems(newOrder);
+  };
+
   return (
     <Container
-      sx={{ mt: 7, mb: 4 }}
+      sx={{ mt: 2, mb: 4 }}
     >
-      <Box sx={{ mb: 2 }}>
+      <Box sx={{ mb: 2, py: 2, background: "beige" }}>
         <TextField
           size="small"
           value={newItem}
-          onChange={(e) => setNewItem(e.target.value)}
+          onChange={(e) =>
+            setNewItem(
+              e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1),
+            )}
         />
         <Button onClick={addItem}>Add item</Button>
+      </Box>
+      <Box>{title}</Box>
+      <Box>
+        <button onClick={() => groupByCategory()}>order by category</button>
+        <button onClick={() => sortUncheckedFirst()}>unchecked first</button>
       </Box>
       <Box
         sx={{
@@ -205,7 +228,6 @@ const MyList: FC<IList> = (props): ReactElement => {
           overflow: "auto",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
         }}
       >
         <List
@@ -214,7 +236,6 @@ const MyList: FC<IList> = (props): ReactElement => {
             maxWidth: 360,
             bgcolor: "background.paper",
           }}
-          subheader={<ListSubheader>{title}</ListSubheader>}
         >
           {(!items || items.length === 0)
             ? <p>No items</p>
@@ -288,4 +309,4 @@ const MyList: FC<IList> = (props): ReactElement => {
   );
 };
 
-export default MyList;
+export default ListWithItems;
