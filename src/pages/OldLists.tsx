@@ -93,7 +93,7 @@ const OldLists: FC = (): ReactElement => {
                 p: 1,
                 border: "2px solid",
                 borderColor: "primary.dark",
-                width: "80%",
+                width: "85%",
               }}
               key={"list-" + list.title}
               onClick={() => handleExpandClick(index)}

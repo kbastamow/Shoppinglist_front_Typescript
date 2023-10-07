@@ -215,7 +215,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     <Container
       sx={{ mt: 2, mb: 4 }}
     >
-      <Box sx={{ mb: 2, py: 2, background: "beige" }}>
+      <Box sx={{ mb: 2, py: 2 }}>
         <TextField
           size="small"
           value={newItem}
@@ -224,7 +224,9 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
               e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1),
             )}
         />
-        <Button onClick={addItem}>Add item</Button>
+        <Button onClick={addItem}>
+          Add item
+        </Button>
       </Box>
       <Box>
         <Typography className="subtitle" variant="h5">
@@ -247,7 +249,6 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
           sx={{
             width: "100%",
             maxWidth: 360,
-            bgcolor: "background.paper",
           }}
         >
           {(!items || items.length === 0)

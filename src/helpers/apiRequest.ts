@@ -1,8 +1,4 @@
-// import { ILoginData } from "../types/interfaces/ILoginData";
-// import { IUserProfile } from "../types/interfaces/IUserProfile";
-// const API_URL = 'http://localhost:3500/'
 
-const token = localStorage.getItem("token-shoppinglist") || "";
 
 type Method = 'GET' | 'PUT' | 'POST' | 'DELETE';
 
@@ -11,6 +7,9 @@ export async function apiRequest<T>(
   method: Method,
   data: unknown = {},
 ): Promise<T> {
+
+  const token = localStorage.getItem("token-shoppinglist") || "";
+  console.log(token)
   const requestOptions: RequestInit = {  //RequestInit is a fetch interface
     method,
     headers: {

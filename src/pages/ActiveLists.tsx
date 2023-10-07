@@ -39,7 +39,7 @@ const ActiveLists = () => {
               p: 2,
               border: "2px solid",
               borderColor: "secondary.main",
-              width: "80%",
+              width: "85%",
               display: "flex",
               justifyContent: "start",
               gap: 5,

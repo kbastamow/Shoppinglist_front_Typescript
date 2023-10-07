@@ -1,5 +1,5 @@
 import { createTheme, ThemeOptions } from "@mui/material";
-
+import myFont from "https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Nerko+One&family=Quattrocento+Sans:wght@400;700&display=swap";
 import { black, cyan, green, grey, lime, yellow } from "@mui/material/colors";
 
 export const custom = createTheme({
@@ -15,7 +15,6 @@ export const custom = createTheme({
       dark: lime[900],
     },
     background: {
-      //   paper: "#151515",
       default: grey[50],
     },
   },
@@ -41,6 +40,9 @@ export const custom = createTheme({
               backgroundColor: lime[500],
               color: cyan[900],
             },
+
+            // fontFamily: "'Love Ya Like A Sister', cursive",
+            fontWeight: "bold",
           }),
         }),
       },
