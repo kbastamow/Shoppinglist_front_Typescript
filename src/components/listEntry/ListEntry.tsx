@@ -1,29 +1,26 @@
-import { FC, ReactElement, useContext, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import CategoryTag from "../categoryTag/CategoryTag";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import TextField from "@mui/material/TextField";
 import FileDownloadDoneIcon from "@mui/icons-material/FileDownloadDone";
 import { IListItem } from "../../types/interfaces/IListItem";
-import { ItemContext } from "../../context/ItemContext/ItemContext";
 
-interface IListEntry {
+interface IListEntryProps {
   item: IListItem;
   onDelete: () => void;
   onEdit: (editedItem: IListItem) => void;
 }
 
-const ListEntry: FC<IListEntry> = (props): ReactElement => {
+const ListEntry: FC<IListEntryProps> = (props): ReactElement => {
   const { item, onDelete, onEdit } = props;
   const [checked, setChecked] = useState<boolean>(item.collected || false);
   const [isInput, setIsInput] = useState<boolean>(false);
   const [itemValue, setItemValue] = useState<string>(item.name);
-  const { items, updateItem } = useContext(ItemContext);
 
   const handleEdit = () => {
     console.log(item.name);
@@ -98,8 +95,7 @@ const ListEntry: FC<IListEntry> = (props): ReactElement => {
         <CategoryTag
           itemId={item.id}
           catName={item.category?.name ?? "No Category"}
-        >
-        </CategoryTag>
+        />
       </ListItem>
     </>
   );

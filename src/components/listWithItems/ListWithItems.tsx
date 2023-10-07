@@ -16,7 +16,6 @@ import {
   FormControlLabel,
   FormLabel,
   List,
-  ListSubheader,
   Radio,
   RadioGroup,
   Stack,
@@ -31,8 +30,7 @@ import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
 import { IUpdateList } from "../../types/interfaces/IUpdateList";
 import { useNavigate } from "react-router";
 import { ItemContext } from "../../context/ItemContext/ItemContext";
-
-const API_URL = "http://localhost:3500";
+import { API_URL } from "../../helpers/apiurl";
 
 // interface IListData {
 //   title: string;
@@ -160,7 +158,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         const updatePromises = itemsToDelete.map((item) =>
           createDeleteMutation.mutate(item)
         );
-        const updateResult = await Promise.all(updatePromises);
+        await Promise.all(updatePromises);
       } else {
         const allChecked = items.filter((item) => !item.collected).map((
           item,
@@ -168,7 +166,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         const updatePromises = allChecked.map((item) =>
           createUpdateItemMutation.mutate(item)
         );
-        const updateResult = await Promise.all(updatePromises);
+        await Promise.all(updatePromises);
       }
       createFinishListMutation.mutate(parseFloat(totalNumber.toFixed(2)));
       setHelperText("");
@@ -196,17 +194,16 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     const newOrder = items.slice().sort((a, b) => {
       const categoryA = a.category;
       const categoryB = b.category;
-      if (categoryA === null && categoryB === null) {
-        return 0;
-      } else if (categoryA === null) {
+      if (categoryA === null) {
         return 1;
       } else if (categoryB === null) {
         return -1;
-      } else {
+      } else if (categoryA?.name && categoryB?.name) { //only necessary to be explicit to keep typescript happy
         console.log(categoryA);
         console.log(categoryB);
         return (categoryA.name).localeCompare(categoryB.name);
       }
+      return 0; // In case both are null
     });
     console.log(newOrder);
     updateItems(newOrder);
@@ -255,8 +252,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
                   item={item}
                   onDelete={() => handleDeleteItem(item)}
                   onEdit={(editedItem) => handleEditItem(editedItem)}
-                >
-                </ListEntry>
+                />
                 <Divider></Divider>
               </Fragment>
             ))}
@@ -266,7 +262,9 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         fullWidth
         size="small"
         variant="contained"
-        onClick={() => setFinishVisible(!finishVisible)}
+        onClick={() => {
+          setFinishVisible(!finishVisible);
+        }}
       >
         {!finishVisible ? <>Click to finish</> : <>Hide</>}
       </Button>
@@ -303,7 +301,6 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
               helperText={helperText}
               value={total}
               onChange={(e) => setTotal(e.target.value)}
-              // onChange={(e) => handleTotalChange(e as React.ChangeEvent<HTMLInputElement>)}
             />
             <Button
               sx={{ m: 2 }}

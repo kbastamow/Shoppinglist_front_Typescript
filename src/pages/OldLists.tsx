@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC, ReactElement, useState } from "react";
 import { apiRequest } from "../services/apiRequest";
 import { IList } from "../types/interfaces/IList";
@@ -8,8 +8,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import { styled } from "@mui/material/styles";
 import OldItems from "../components/oldItems/OldItems";
-
-const API_URL = "http://localhost:3500";
+import { API_URL } from "../helpers/apiurl";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IDeleteItem } from "../types/interfaces/IDeleteItem";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -27,10 +28,10 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const OldLists: FC = (): ReactElement => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded] = useState(false);
   const [isOpenCollapse, setIsOpenCollapse] = useState(null);
 
-  const { error, isLoading, data } = useQuery(
+  const { error, isLoading, data, refetch } = useQuery(
     ["lists"],
     async () => {
       return await apiRequest<IList[]>(
@@ -41,12 +42,28 @@ const OldLists: FC = (): ReactElement => {
     { refetchOnWindowFocus: false },
   );
 
-  const handleExpandClick = (index) => {
+  const deleteListMutation = useMutation(
+    async (listId: string) => {
+      const deleteResponse = await apiRequest<IDeleteItem>(
+        `${API_URL}/lists/${listId}`,
+        "DELETE",
+      );
+      if (deleteResponse) {
+        refetch();
+      }
+    },
+  );
+
+  const handleExpandClick = (index: number) => {
     if (isOpenCollapse === index) {
       setIsOpenCollapse(null);
     } else {
       setIsOpenCollapse(index);
     }
+  };
+
+  const handleDelete = (listId: string) => {
+    deleteListMutation.mutate(listId);
   };
 
   if (error) return <div>Error displaying lists</div>;
@@ -71,7 +88,7 @@ const OldLists: FC = (): ReactElement => {
                 border: "1px solid grey",
                 width: "90%",
               }}
-              key={list.title}
+              key={"list-" + list.title}
               onClick={() => handleExpandClick(index)}
             >
               <Box
@@ -100,6 +117,15 @@ const OldLists: FC = (): ReactElement => {
                 timeout="auto"
                 unmountOnExit
               >
+                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDelete(list.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
                 {isOpenCollapse === index && <OldItems listId={list.id} />}
               </Collapse>
             </Box>

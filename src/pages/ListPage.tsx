@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import ListWithItems from "../components/listWithItems/ListWithItems";
 import { Box, LinearProgress } from "@mui/material";
 import { ItemProvider } from "../context/ItemContext/ItemContext";
-const API_URL = "http://localhost:3500";
+import { API_URL } from "../helpers/apiurl";
 
 const ListPage = () => {
   const { listId } = useParams();
@@ -30,11 +30,11 @@ const ListPage = () => {
   }
   //Stop old data from flashing when navigating different lists
   if (data?.id == listId) {
-    console.log(data.items);
+    console.log(data?.items);
     console.log("Hello from listPage");
     return (
       <ItemProvider initialItems={data.items}>
-        <ListWithItems {...data as IList} />;
+        <ListWithItems {...data as IList} />
       </ItemProvider>
     );
   }

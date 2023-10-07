@@ -5,7 +5,7 @@ import { IList } from "../types/interfaces/IList";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { dateConverter } from "../helpers/dateConverter";
-const API_URL = "http://localhost:3500";
+import { API_URL } from "../helpers/apiurl";
 
 const ActiveLists = () => {
   const navigate = useNavigate();

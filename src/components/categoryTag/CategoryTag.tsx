@@ -12,7 +12,7 @@ import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 // import { IItem } from '../../types/interfaces/IItem';
 import { IListItem } from "../../types/interfaces/IListItem";
 import { ItemContext } from "../../context/ItemContext/ItemContext";
-const API_URL = "http://localhost:3500";
+import { API_URL } from "../../helpers/apiurl";
 
 interface CategoryProps {
   itemId: string;
@@ -74,12 +74,13 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
       );
 
       if (categoryResponse) {
-        console.log(categoryResponse);
         const updated = items.map((item) => {
           if (item.id === data.id) {
             item.category = {
               ...item.category,
-              name: categoryResponse.category.name,
+              name: categoryResponse.category?.name
+                ? categoryResponse.category.name
+                : "No Category",
             };
             return item;
           }

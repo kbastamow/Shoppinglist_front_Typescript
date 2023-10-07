@@ -3,6 +3,7 @@ export interface IListItem {
     name: string
     collected?: boolean
     category?: {
-        id?: string 
-        name?: string }
-    } 
+        id?: string
+        name?: string
+    }
+} 
