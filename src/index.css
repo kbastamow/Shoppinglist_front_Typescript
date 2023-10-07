@@ -1,14 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Nerko+One&family=Quattrocento+Sans:wght@400;700&display=swap');
+
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Quattrocento Sans', sans-serif !important;
   line-height: 1.5;
   font-weight: 400;
-
   /* color-scheme: light dark;
   background-color: #242424; */
-
+  /* background-color: #e8f5e9M; */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+.title {
+  font-family: 'Love Ya Like A Sister', cursive !important;
+  padding-top: 30px;
+  color: green;
+}
+
+.subtitle {
+  padding: 10px 0;
+  font-family: 'Love Ya Like A Sister', cursive !important;
+}
+
+img {
+  max-width: 80%;
+  height: auto;
+}
+
+
+/* Define a keyframes animation named 'tilt' */
+@keyframes tilt {
+  0% {
+    transform: rotate(0deg); /* Start with no rotation */
+  }
+  20% {
+    transform: rotate(5deg); /* Tilt to the right */
+  }
+  40% {
+    transform: rotate(-5deg); /* Tilt to the left */
+  }
+  60% {
+    transform: rotate(7deg); 
+  }
+  80% {
+    transform: rotate(-7deg); 
+  }
+  100% {
+    transform: rotate(0deg); 
+  }
+}
+
+.tilting {
+  animation-name: tilt; 
+  animation-duration: 1s; 
+  animation-timing-function: ease-in-out; 
+  animation-iteration-count: 1; 
+  transform-origin: bottom center;
 }

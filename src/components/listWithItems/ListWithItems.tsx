@@ -10,6 +10,7 @@ import ListEntry from "../listEntry/ListEntry";
 import {
   Box,
   Button,
+  Chip,
   Container,
   Divider,
   FormControl,
@@ -20,11 +21,12 @@ import {
   RadioGroup,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 import { IListItem } from "../../types/interfaces/IListItem";
 import { useMutation } from "@tanstack/react-query";
 import { IAddItem } from "../../types/interfaces/IAddItem";
-import { apiRequest } from "../../services/apiRequest";
+import { apiRequest } from "../../helpers/apiRequest";
 import { IList } from "../../types/interfaces/IList";
 import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
 import { IUpdateList } from "../../types/interfaces/IUpdateList";
@@ -224,10 +226,14 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         />
         <Button onClick={addItem}>Add item</Button>
       </Box>
-      <Box>{title}</Box>
       <Box>
-        <button onClick={() => groupByCategory()}>order by category</button>
-        <button onClick={() => sortUncheckedFirst()}>unchecked first</button>
+        <Typography className="subtitle" variant="h5">
+          {title}
+        </Typography>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Chip label="Order by category" onClick={() => groupByCategory()} />
+        <Chip label="Unchecked first" onClick={() => sortUncheckedFirst()} />
       </Box>
       <Box
         sx={{
@@ -271,37 +277,38 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
 
       {finishVisible && (
         <>
-          <FormControl>
-            <FormLabel id="options"></FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={finishOption}
-              onChange={(e) => setFinishOption(e.target.value)}
-            >
-              <FormControlLabel
-                value="removeEmpty"
-                control={<Radio />}
-                label="Remove unchecked items"
-              />
-              <FormControlLabel
-                value="checkEmpty"
-                control={<Radio />}
-                label="Mark all as checked"
-              />
-            </RadioGroup>
-          </FormControl>
-
-          <Stack direction="row" justifyContent="space-around">
+          <Box sx={{ display: "flex" }}>
             <TextField
-              sx={{ width: "50%" }}
+              sx={{ width: "50%", mt: 2 }}
               size="small"
               label="Total"
               helperText={helperText}
               value={total}
               onChange={(e) => setTotal(e.target.value)}
             />
+          </Box>
+          <Stack direction="row" justifyContent="space-around">
+            <FormControl>
+              <FormLabel id="options"></FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={finishOption}
+                onChange={(e) => setFinishOption(e.target.value)}
+              >
+                <FormControlLabel
+                  value="removeEmpty"
+                  control={<Radio />}
+                  label="Remove unchecked items"
+                />
+                <FormControlLabel
+                  value="checkEmpty"
+                  control={<Radio />}
+                  label="Mark all as checked"
+                />
+              </RadioGroup>
+            </FormControl>
             <Button
               sx={{ m: 2 }}
               variant="contained"

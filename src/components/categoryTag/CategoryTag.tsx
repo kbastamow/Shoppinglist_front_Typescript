@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import { Chip } from "@mui/material";
 import { EnumCategory } from "../../types/EnumCategory";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "../../services/apiRequest";
+import { apiRequest } from "../../helpers/apiRequest";
 import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 // import { IItem } from '../../types/interfaces/IItem';
 import { IListItem } from "../../types/interfaces/IListItem";

@@ -1,8 +1,14 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FC, ReactElement, useState } from "react";
-import { apiRequest } from "../services/apiRequest";
+import { apiRequest } from "../helpers/apiRequest";
 import { IList } from "../types/interfaces/IList";
-import { Box, Collapse, LinearProgress, Stack } from "@mui/material";
+import {
+  Box,
+  Collapse,
+  LinearProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { dateConverter } from "../helpers/dateConverter";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
@@ -77,16 +83,17 @@ const OldLists: FC = (): ReactElement => {
 
   return (
     <>
-      <div>Old lists</div>
-      <Stack spacing={2}>
+      <Typography className="subtitle" variant="h5">Old lists</Typography>
+      <Stack spacing={2} direction="column" alignItems="center">
         {data?.filter((list) => !list.active).map((list, index) => (
           <>
             <Box
               component="span"
               sx={{
                 p: 1,
-                border: "1px solid grey",
-                width: "90%",
+                border: "2px solid",
+                borderColor: "primary.dark",
+                width: "80%",
               }}
               key={"list-" + list.title}
               onClick={() => handleExpandClick(index)}
@@ -95,6 +102,7 @@ const OldLists: FC = (): ReactElement => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
                 <span>{dateConverter(list.date)}</span>
@@ -117,16 +125,22 @@ const OldLists: FC = (): ReactElement => {
                 timeout="auto"
                 unmountOnExit
               >
-                <Box sx={{ display: "flex", justifyContent: "end" }}>
+                {isOpenCollapse === index && <OldItems listId={list.id} />}
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    backgroundColor: "primary.main",
+                  }}
+                >
                   <IconButton
                     edge="end"
                     aria-label="delete"
                     onClick={() => handleDelete(list.id)}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon sx={{ color: "white" }} />
                   </IconButton>
                 </Box>
-                {isOpenCollapse === index && <OldItems listId={list.id} />}
               </Collapse>
             </Box>
           </>

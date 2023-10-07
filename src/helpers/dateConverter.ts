@@ -1,7 +1,5 @@
-import moment from "moment";
-
 export const dateConverter = (date: string): string => {
-
-    return moment(date).subtract(10, 'days').calendar();
+    const formattedDate = new Date(date)
+    return formattedDate.toLocaleDateString('en-GB')
 };
 

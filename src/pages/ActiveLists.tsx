@@ -1,6 +1,6 @@
 import React from "react";
-import { apiRequest } from "../services/apiRequest";
-import { Box, LinearProgress, Stack } from "@mui/material";
+import { apiRequest } from "../helpers/apiRequest";
+import { Box, LinearProgress, Stack, Typography } from "@mui/material";
 import { IList } from "../types/interfaces/IList";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
@@ -31,14 +31,15 @@ const ActiveLists = () => {
 
   return (
     <>
-      <div>ActiveLists</div>
+      <Typography className="subtitle" variant="h5">Active Lists</Typography>
       <Stack spacing={2} direction="column" alignItems="center">
         {data?.filter((list) => list.active).map((list) => (
           <Box
             sx={{
               p: 2,
-              border: "1px solid red",
-              width: "75%",
+              border: "2px solid",
+              borderColor: "secondary.main",
+              width: "80%",
               display: "flex",
               justifyContent: "start",
               gap: 5,

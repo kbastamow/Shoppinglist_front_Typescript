@@ -5,7 +5,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
-import { apiRequest } from "../../services/apiRequest";
+import { apiRequest } from "../../helpers/apiRequest";
 import { IList } from "../../types/interfaces/IList";
 import { API_URL } from "../../helpers/apiurl";
 
