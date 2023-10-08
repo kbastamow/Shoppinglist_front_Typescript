@@ -1,5 +1,6 @@
 import {
   FC,
+  FormEvent,
   Fragment,
   ReactElement,
   useContext,
@@ -136,7 +137,8 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     },
   );
 
-  const addItem = () => {
+  const addItem = (e: FormEvent) => {
+    e.preventDefault();
     if (newItem.trim() !== "") {
       addItemMutation.mutate({ name: newItem, listId: listId });
     }
@@ -215,18 +217,22 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       sx={{ mt: 2, mb: 4 }}
     >
       <Box sx={{ py: 2 }}>
-        <TextField
-          size="small"
-          value={newItem}
-          onChange={(e) =>
-            setNewItem(
-              e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1),
-            )}
-        />
-        <Button onClick={addItem}>
-          Add item
-        </Button>
+        <form onSubmit={(e) => addItem(e)} className="input">
+          <TextField
+            size="small"
+            value={newItem}
+            onChange={(e) =>
+              setNewItem(
+                e.target.value.charAt(0).toUpperCase() +
+                  e.target.value.slice(1),
+              )}
+          />
+          <Button type="submit">
+            Add item
+          </Button>
+        </form>
       </Box>
+
       <Box>
         <Typography className="subtitle" variant="h4">
           {title}

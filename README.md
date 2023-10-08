@@ -1,27 +1,31 @@
-# React + TypeScript + Vite
+# Frontend Project "Shopping list" with React and Typescript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Description
 
-Currently, two official plugins are available:
+This is the frontend for a simple shopping list organiser app, where users can log in and create and manage a shopping list or lists. 
+The project is a study of typescript usage which is why the readme contains explanations and clarifications, rather like study notes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**The backend for the app can be found here:**
 
-## Expanding the ESLint configuration
+![Shoppinglist backend](https://github.com/kbastamow/Shoppinglist_back_Typescript)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tech and tools
 
-- Configure the top-level `parserOptions` property like this:
+- React with Typescript
+- React Query (Tanstack Query) for data fetching and state management
+- React router
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+Styles:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Material UI
+
+Dev:
+- Eslint & prettier for linting
+- React Query devtools
+
+## App
+
+<video id="video" controls>
+<source id="videoclip" src="./src/assets/readme/appVideo.mp4" type="video/mp4"/>
+</video>
+

@@ -73,7 +73,7 @@ const App: FC = (): ReactElement => {
               />
             </Routes>
           </BrowserRouter>
-          <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+          {/* <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools> */}
         </ThemeProvider>
       </QueryClientProvider>
     </>
