@@ -23,7 +23,7 @@ const Home = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const createNewListMutation = useMutation(
+  const createListMutation = useMutation(
     async (data: INewListData) => {
       const newListResponse = await apiRequest<INewList>(
         `${API_URL}/lists`,
@@ -57,7 +57,7 @@ const Home = () => {
     if (title !== "") {
       newList.title = title;
     }
-    createNewListMutation.mutate(newList);
+    createListMutation.mutate(newList);
   };
 
   const handleLogout = () => {

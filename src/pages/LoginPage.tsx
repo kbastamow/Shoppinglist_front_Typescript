@@ -19,7 +19,7 @@ import trolley from "../assets/trolley.png";
 const LoginPage: FC = (): ReactElement => {
   const navigate = useNavigate();
 
-  const createLoginMutation = useMutation(
+  const loginMutation = useMutation(
     async (data: ILoginData) => {
       const loginResponse = await apiRequest<IUserProfile>(
         `${API_URL}/users/login`,
@@ -48,7 +48,7 @@ const LoginPage: FC = (): ReactElement => {
       email: emailData as string,
       password: passwordData as string,
     };
-    createLoginMutation.mutate(loginData);
+    loginMutation.mutate(loginData);
   };
 
   return (

@@ -32,7 +32,7 @@ import { IList } from "../../types/interfaces/IList";
 import { IDeleteItem } from "../../types/interfaces/IDeleteItem";
 import { IUpdateList } from "../../types/interfaces/IUpdateList";
 import { useNavigate } from "react-router";
-import { ItemContext } from "../../context/ItemContext/ItemContext";
+import { ItemContext } from "../../context/ItemContext";
 import { API_URL } from "../../helpers/apiurl";
 
 // interface IListData {
@@ -74,7 +74,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     updateItems(listItems);
   }, [listItems]);
 
-  const createDeleteMutation = useMutation(
+  const deleteItemMutation = useMutation(
     async (item: IListItem) => {
       const deleteResponse = await apiRequest<IDeleteItem>(
         `${API_URL}/items/${item.id}`,
@@ -89,7 +89,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     },
   );
 
-  const createAddItemMutation = useMutation(
+  const addItemMutation = useMutation(
     async (data: IAddItem) => {
       const itemResponse = await apiRequest<IListItem>(
         `${API_URL}/items`,
@@ -111,7 +111,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     },
   );
 
-  const createUpdateItemMutation = useMutation(
+  const updateItemMutation = useMutation(
     async (data: IListItem) => {
       const updateResponse = await apiRequest<IListItem>(
         `${API_URL}/items/${data.id}`,
@@ -130,7 +130,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     },
   );
 
-  const createFinishListMutation = useMutation(
+  const finishListMutation = useMutation(
     async (total: number) => {
       const updateResponse = await apiRequest<IUpdateList>(
         `${API_URL}/lists/${listId}`,
@@ -145,18 +145,18 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
 
   const addItem = () => {
     if (newItem.trim() !== "") {
-      createAddItemMutation.mutate({ name: newItem, listId: listId });
+      addItemMutation.mutate({ name: newItem, listId: listId });
     }
   };
 
   const handleDeleteItem = (
     item: IListItem,
   ): void => {
-    createDeleteMutation.mutate(item);
+    deleteItemMutation.mutate(item);
   };
 
   const handleEditItem = (editedItem: IListItem): void => {
-    createUpdateItemMutation.mutate(editedItem);
+    updateItemMutation.mutate(editedItem);
   };
 
   const handleFinish = async () => {
@@ -167,7 +167,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       if (finishOption === "removeEmpty") {
         const itemsToDelete = items.filter((item) => !item.collected);
         const updatePromises = itemsToDelete.map((item) =>
-          createDeleteMutation.mutate(item)
+          deleteItemMutation.mutate(item)
         );
         await Promise.all(updatePromises);
       } else {
@@ -175,11 +175,11 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
           item,
         ) => ({ ...item, collected: true }));
         const updatePromises = allChecked.map((item) =>
-          createUpdateItemMutation.mutate(item)
+          updateItemMutation.mutate(item)
         );
         await Promise.all(updatePromises);
       }
-      createFinishListMutation.mutate(parseFloat(totalNumber.toFixed(2)));
+      finishListMutation.mutate(parseFloat(totalNumber.toFixed(2)));
       setHelperText("");
     } else {
       setHelperText(

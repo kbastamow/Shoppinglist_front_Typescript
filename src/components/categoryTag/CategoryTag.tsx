@@ -4,13 +4,13 @@ import ListItem from "@mui/material/ListItem";
 import * as React from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
-import { Chip } from "@mui/material";
+import { Box, Chip } from "@mui/material";
 import { EnumCategory } from "../../types/EnumCategory";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "../../helpers/apiRequest";
 import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 import { IListItem } from "../../types/interfaces/IListItem";
-import { ItemContext } from "../../context/ItemContext/ItemContext";
+import { ItemContext } from "../../context/ItemContext";
 import { API_URL } from "../../helpers/apiurl";
 import { categoryColors } from "../../theme/colors";
 
@@ -64,7 +64,7 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
   const [selectedValue, setSelectedValue] = useState(catName);
   const { items, updateItems } = useContext(ItemContext);
 
-  const createUpdateCategoryMutation = useMutation(
+  const updateCategoryMutation = useMutation(
     async (data: IUpdateItem) => {
       const categoryResponse = await apiRequest<IListItem>(
         `${API_URL}/items/category/${data.id}`,
@@ -104,29 +104,25 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
         },
         id: itemId,
       };
-      createUpdateCategoryMutation.mutate(data);
+      updateCategoryMutation.mutate(data);
       setSelectedValue(value);
     }
   };
 
   return (
-    <div>
-      {/* <Box sx={{ display: 'flex', alignItems: 'center'}}> */}
+    <Box>
       <Chip
         sx={{ mr: 10, bgcolor: categoryColors[selectedValue] }}
         label={selectedValue}
-        // color="primary"
-
         size="small"
         onClick={handleClickOpen}
       />
-      {/* </Box> */}
       <CategoryDialog
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}
       />
-    </div>
+    </Box>
   );
 };
 

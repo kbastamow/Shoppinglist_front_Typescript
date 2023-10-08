@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import ListWithItems from "../components/listWithItems/ListWithItems";
 import { Box, LinearProgress } from "@mui/material";
-import { ItemProvider } from "../context/ItemContext/ItemContext";
+import { ItemProvider } from "../context/ItemContext";
 import { API_URL } from "../helpers/apiurl";
 
 const ListPage = () => {

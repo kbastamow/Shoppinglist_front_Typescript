@@ -5,7 +5,7 @@ import {
   ReactElement,
   useState,
 } from "react";
-import { IListItem } from "../../types/interfaces/IListItem";
+import { IListItem } from "../types/interfaces/IListItem";
 
 interface IItemProviderProps {
   initialItems: IListItem[]; // Assuming IListItem is your item type

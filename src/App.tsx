@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 import "./App.css";
 import Header from "./components/header/Header";
-import { Navigate, Route, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import OldLists from "./pages/OldLists";
@@ -12,10 +12,8 @@ import ListPage from "./pages/ListPage";
 import Home from "./pages/Home";
 import ActiveLists from "./pages/ActiveLists";
 import ShoppingComplete from "./pages/ShoppingComplete";
-import { ItemProvider } from "./context/ItemContext/ItemContext";
-import { isAuthenticated } from "./helpers/isAuthenticated";
 import { custom } from "./theme/custom";
-import PrivateArea from "./helpers/PrivateArea";
+import PrivateArea from "./components/privateArea/PrivateArea";
 
 //Create a query client
 const queryClient = new QueryClient();
