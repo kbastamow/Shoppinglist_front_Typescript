@@ -1,0 +1,79 @@
+Folder PATH listing for volume OS
+Volume serial number is 30A6-4FCE
+C:.
+|   App.css
+|   App.tsx
+|   filetree.doc
+|   index.css
+|   main.tsx
+|   output.doc
+|   vite-env.d.ts
+|   
++---assets
+|   |   complete.jpg
+|   |   trolley.png
+|   |   
+|   \---readme
+|           appVideo.mp4
+|           shoppinglist.png
+|           shoppinglist2.png
+|           shoppinglistA.png
+|           shoppinglistB.png
+|           
++---components
+|   +---categoryTag
+|   |       CategoryTag.tsx
+|   |       
+|   +---header
+|   |       Header.tsx
+|   |       
+|   +---listEntry
+|   |       ListEntry.tsx
+|   |       
+|   +---listWithItems
+|   |       ListWithItems.tsx
+|   |       
+|   +---oldItems
+|   |       OldItems.tsx
+|   |       
+|   \---privateArea
+|           PrivateArea.tsx
+|           
++---context
+|       ItemContext.tsx
+|       
++---helpers
+|       apiRequest.ts
+|       apiurl.ts
+|       dateConverter.ts
+|       isAuthenticated.ts
+|       
++---pages
+|       ActiveLists.tsx
+|       Home.tsx
+|       ListPage.tsx
+|       LoginPage.tsx
+|       OldLists.tsx
+|       ShoppingComplete.tsx
+|       
++---theme
+|       colors.ts
+|       custom.tsx
+|       
+\---types
+    |   EnumCategory.ts
+    |   
+    \---interfaces
+            IAddItem.ts
+            IDeleteItem.ts
+            IItem.ts
+            IList.ts
+            IListItem.ts
+            ILoginData.ts
+            ILogout.ts
+            INewList.ts
+            INewListData.ts
+            IUpdateItem.ts
+            IUpdateList.ts
+            IUserProfile.ts
+            
