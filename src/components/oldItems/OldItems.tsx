@@ -28,7 +28,7 @@ const OldItems: FC<OldItemProps> = ({ listId }: OldItemProps): ReactElement => {
   if (isLoading) {
     return (
       <Box sx={{ width: "100%" }}>
-        <LinearProgress />
+        <LinearProgress color="secondary" />
       </Box>
     );
   }

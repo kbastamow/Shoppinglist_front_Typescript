@@ -4,7 +4,6 @@ import {
   ReactElement,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import ListEntry from "../listEntry/ListEntry";
@@ -35,19 +34,12 @@ import { useNavigate } from "react-router";
 import { ItemContext } from "../../context/ItemContext";
 import { API_URL } from "../../helpers/apiurl";
 
-// interface IListData {
-//   title: string;
-//   listId: string
-// }
-
 const ListWithItems: FC<IList> = (props): ReactElement => {
-  const navigate = useNavigate();
-
   const {
     title = "My List",
-    id: listId,
+    id: listId, //giving id and items new names to avoid clashes
     items: listItems,
-  } = props; //giving id a new name
+  } = props;
 
   const [finishOption, setFinishOption] = useState("removeEmpty");
   const { items, updateItems } = useContext(ItemContext);
@@ -55,6 +47,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
   const [total, setTotal] = useState<string>("0");
   const [helperText, setHelperText] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (finishVisible) {

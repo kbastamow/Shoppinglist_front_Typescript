@@ -1,4 +1,4 @@
-export const isAuthenticated = () => {
+export const isAuthenticated = (): boolean => {
     const token = localStorage.getItem("token-shoppinglist");
     if (token) {
         return true;

@@ -21,8 +21,8 @@ import { IDeleteItem } from "../types/interfaces/IDeleteItem";
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
-
 const ExpandMore = styled((props: ExpandMoreProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme, expand }) => ({
@@ -35,7 +35,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 const OldLists: FC = (): ReactElement => {
   const [expanded] = useState(false);
-  const [isOpenCollapse, setIsOpenCollapse] = useState(null);
+  const [isOpenCollapse, setIsOpenCollapse] = useState<number | null>(null);
 
   const { error, isLoading, data, refetch } = useQuery(
     ["lists"],
@@ -76,7 +76,7 @@ const OldLists: FC = (): ReactElement => {
   if (isLoading) {
     return (
       <Box sx={{ width: "100%" }}>
-        <LinearProgress />
+        <LinearProgress color="secondary" />
       </Box>
     );
   }
@@ -115,7 +115,7 @@ const OldLists: FC = (): ReactElement => {
                 <Box>
                   <ExpandMore
                     expand={isOpenCollapse === index}
-                    onClick={handleExpandClick}
+                    onClick={() => handleExpandClick(index)}
                     aria-expanded={expanded}
                     aria-label="show more"
                   >

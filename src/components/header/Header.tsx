@@ -1,11 +1,7 @@
-import React, { FC, ReactElement } from "react";
+import { FC, ReactElement } from "react";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-
 import { NavLink } from "react-router-dom";
-
 import { isAuthenticated } from "../../helpers/isAuthenticated";
 import { useLocation } from "react-router-dom";
 
@@ -18,7 +14,6 @@ const Header: FC = (): ReactElement => {
   }
 
   return (
-    // <Box sx={{ flexGrow: 1 }}>
     <AppBar
       position="static"
       sx={{ backgroundColor: "primary.dark", color: "white" }}
@@ -51,8 +46,8 @@ const Header: FC = (): ReactElement => {
             return {
               textDecoration: "none",
               color: "white",
-              fontWeight: isActive && "bold",
-              letterSpacing: isActive && 2,
+              fontWeight: isActive ? "bold" : undefined, //ternary and undefined to keep TS happy
+              letterSpacing: isActive ? 2 : undefined,
             };
           }}
           end
@@ -65,8 +60,8 @@ const Header: FC = (): ReactElement => {
             return {
               textDecoration: "none",
               color: "white",
-              fontWeight: isActive && "bold",
-              letterSpacing: isActive && 2,
+              fontWeight: isActive ? "bold" : undefined,
+              letterSpacing: isActive ? 2 : undefined,
             };
           }}
         >

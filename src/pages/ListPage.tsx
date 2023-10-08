@@ -24,12 +24,12 @@ const ListPage = () => {
   if (isLoading) {
     return (
       <Box sx={{ width: "100%" }}>
-        <LinearProgress />
+        <LinearProgress color="secondary" />
       </Box>
     );
   }
   //Stop old data from flashing when navigating different lists
-  if (data?.id == listId) {
+  if (data && data.id == listId) {
     return (
       <ItemProvider initialItems={data.items}>
         <ListWithItems {...data as IList} />

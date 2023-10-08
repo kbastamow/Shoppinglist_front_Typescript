@@ -13,7 +13,6 @@ import { useMutation } from "@tanstack/react-query";
 import { IUserProfile } from "../types/interfaces/IUserProfile";
 import { useNavigate } from "react-router";
 import { API_URL } from "../helpers/apiurl";
-import groceries from "../assets/groceries.png";
 import trolley from "../assets/trolley.png";
 
 const LoginPage: FC = (): ReactElement => {
@@ -30,8 +29,7 @@ const LoginPage: FC = (): ReactElement => {
         localStorage.setItem("token-shoppinglist", loginResponse.token);
         navigate("/");
       }
-
-      // return loginResponse
+      return loginResponse;
     },
   );
 

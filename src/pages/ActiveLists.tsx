@@ -1,4 +1,3 @@
-import React from "react";
 import { apiRequest } from "../helpers/apiRequest";
 import { Box, LinearProgress, Stack, Typography } from "@mui/material";
 import { IList } from "../types/interfaces/IList";
@@ -24,7 +23,7 @@ const ActiveLists = () => {
   if (isLoading) {
     return (
       <Box sx={{ width: "100%" }}>
-        <LinearProgress />
+        <LinearProgress color="secondary" />
       </Box>
     );
   }

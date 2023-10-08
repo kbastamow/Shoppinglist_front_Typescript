@@ -29,15 +29,12 @@ export interface CategoryDialogProps {
 
 function CategoryDialog(props: CategoryDialogProps) {
   const { onClose, selectedValue, open } = props;
-
   const handleClose = () => {
     onClose(selectedValue);
   };
-
   const handleListItemClick = (value: string) => {
     onClose(value);
   };
-
   return (
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Pick a category</DialogTitle>
@@ -108,11 +105,17 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
       setSelectedValue(value);
     }
   };
+  //Determine background color based on category name:
+  // categoryColors[selectedValue] works but typescript not happy.
+  // workaround: categoryColors[selectedValue as keyof typeof categoryColors]
 
   return (
     <Box>
       <Chip
-        sx={{ mr: 10, bgcolor: categoryColors[selectedValue] }}
+        sx={{
+          mr: 10,
+          bgcolor: categoryColors[selectedValue as keyof typeof categoryColors],
+        }}
         label={selectedValue}
         size="small"
         onClick={handleClickOpen}
