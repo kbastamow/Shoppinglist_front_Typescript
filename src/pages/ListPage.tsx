@@ -30,7 +30,6 @@ const ListPage = () => {
   }
   //Stop old data from flashing when navigating different lists
   if (data?.id == listId) {
-    console.log(data?.items);
     return (
       <ItemProvider initialItems={data.items}>
         <ListWithItems {...data as IList} />

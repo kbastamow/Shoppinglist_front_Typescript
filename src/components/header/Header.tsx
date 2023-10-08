@@ -51,8 +51,8 @@ const Header: FC = (): ReactElement => {
             return {
               textDecoration: "none",
               color: "white",
-              fontWeight: isActive && "bolder",
-              fontSize: isActive && "larger",
+              fontWeight: isActive && "bold",
+              fontSize: isActive && "large",
             };
           }}
           end
@@ -65,8 +65,8 @@ const Header: FC = (): ReactElement => {
             return {
               textDecoration: "none",
               color: "white",
-              fontWeight: isActive && "bolder",
-              fontSize: isActive && "larger",
+              fontWeight: isActive && "bold",
+              fontSize: isActive && "large",
             };
           }}
         >

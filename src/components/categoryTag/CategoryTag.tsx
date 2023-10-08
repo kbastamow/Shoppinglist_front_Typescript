@@ -9,10 +9,10 @@ import { EnumCategory } from "../../types/EnumCategory";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "../../helpers/apiRequest";
 import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
-// import { IItem } from '../../types/interfaces/IItem';
 import { IListItem } from "../../types/interfaces/IListItem";
 import { ItemContext } from "../../context/ItemContext/ItemContext";
 import { API_URL } from "../../helpers/apiurl";
+import { categoryColors } from "../../assets/colors";
 
 interface CategoryProps {
   itemId: string;
@@ -21,13 +21,13 @@ interface CategoryProps {
 
 const categories = Object.values(EnumCategory);
 
-export interface SimpleDialogProps {
+export interface CategoryDialogProps {
   open: boolean;
   selectedValue: string;
   onClose: (value: string) => void;
 }
 
-function SimpleDialog(props: SimpleDialogProps) {
+function CategoryDialog(props: CategoryDialogProps) {
   const { onClose, selectedValue, open } = props;
 
   const handleClose = () => {
@@ -35,7 +35,6 @@ function SimpleDialog(props: SimpleDialogProps) {
   };
 
   const handleListItemClick = (value: string) => {
-    console.log(value);
     onClose(value);
   };
 
@@ -47,7 +46,7 @@ function SimpleDialog(props: SimpleDialogProps) {
           <ListItem key={category}>
             <Chip
               label={category}
-              color="primary"
+              sx={{ bgcolor: categoryColors[category] }}
               size="small"
               onClick={() => handleListItemClick(category)}
               key={category}
@@ -92,16 +91,13 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
   );
 
   const handleClickOpen = () => {
-    console.log("click category chip");
     setOpen(true);
   };
 
   const handleClose = (value: string) => {
     setOpen(false);
-    console.log(value);
 
     if (value !== selectedValue) {
-      console.log(value);
       const data = {
         category: {
           name: value,
@@ -117,14 +113,15 @@ const CategoryTag: FC<CategoryProps> = (props): ReactElement => {
     <div>
       {/* <Box sx={{ display: 'flex', alignItems: 'center'}}> */}
       <Chip
-        sx={{ mr: 10 }}
+        sx={{ mr: 10, bgcolor: categoryColors[selectedValue] }}
         label={selectedValue}
-        color="primary"
+        // color="primary"
+
         size="small"
         onClick={handleClickOpen}
       />
       {/* </Box> */}
-      <SimpleDialog
+      <CategoryDialog
         selectedValue={selectedValue}
         open={open}
         onClose={handleClose}

@@ -4,6 +4,7 @@ import {
   ReactElement,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import ListEntry from "../listEntry/ListEntry";
@@ -49,7 +50,6 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
   } = props; //giving id a new name
 
   const [finishOption, setFinishOption] = useState("removeEmpty");
-  // const [items, setItems] = useState<IListItem[] | []>([]);
   const { items, updateItems } = useContext(ItemContext);
   const [newItem, setNewItem] = useState<string>("");
   const [finishVisible, setFinishVisible] = useState<boolean>(false);
@@ -57,12 +57,22 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
   const [helperText, setHelperText] = useState<string>("");
 
   useEffect(() => {
-    updateItems(listItems);
-  }, [listItems]);
+    if (finishVisible) {
+      window.scrollTo({
+        top: 500,
+        behavior: "smooth",
+      });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [finishVisible]);
 
   useEffect(() => {
-    console.log("items have changed:", items);
-  }, [items]);
+    updateItems(listItems);
+  }, [listItems]);
 
   const createDeleteMutation = useMutation(
     async (item: IListItem) => {
@@ -155,7 +165,6 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       totalNumber.toFixed(2);
 
       if (finishOption === "removeEmpty") {
-        console.log("Remove unchecked");
         const itemsToDelete = items.filter((item) => !item.collected);
         const updatePromises = itemsToDelete.map((item) =>
           createDeleteMutation.mutate(item)
@@ -201,13 +210,10 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
       } else if (categoryB === null) {
         return -1;
       } else if (categoryA?.name && categoryB?.name) { //only necessary to be explicit to keep typescript happy
-        console.log(categoryA);
-        console.log(categoryB);
         return (categoryA.name).localeCompare(categoryB.name);
       }
       return 0; // In case both are null
     });
-    console.log(newOrder);
     updateItems(newOrder);
   };
 

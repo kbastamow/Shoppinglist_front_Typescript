@@ -28,7 +28,6 @@ export const ItemProvider: FC<PropsWithChildren<IItemProviderProps>> = (
   const [items, setItems] = useState<IListItem[]>(initialItems);
 
   function updateItems(updatedValues: IListItem[]) {
-    console.log("hello");
     setItems(updatedValues);
   }
 

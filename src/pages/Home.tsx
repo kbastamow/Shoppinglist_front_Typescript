@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { INewListData } from "../types/interfaces/INewListData";
 import { INewList } from "../types/interfaces/INewList";
 import trolley from "../assets/trolley.png";
+import { ILogout } from "../types/interfaces/ILogout";
 const Home = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
@@ -31,9 +32,22 @@ const Home = () => {
       );
 
       if (newListResponse) {
-        console.log(newListResponse);
         handleClose();
         navigate(`/lists/${newListResponse.list.id}`);
+      }
+    },
+  );
+
+  const logoutMutation = useMutation(
+    async () => {
+      const logoutResponse = await apiRequest<ILogout>(
+        `${API_URL}/users/logout`,
+        "PUT",
+      );
+
+      if (logoutResponse) {
+        localStorage.removeItem("token-shoppinglist");
+        navigate("/login");
       }
     },
   );
@@ -47,8 +61,9 @@ const Home = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token-shoppinglist");
-    navigate("/login");
+    logoutMutation.mutate();
+    // localStorage.removeItem("token-shoppinglist");
+    // navigate("/login");
   };
 
   return (

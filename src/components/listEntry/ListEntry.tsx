@@ -23,7 +23,6 @@ const ListEntry: FC<IListEntryProps> = (props): ReactElement => {
   const [itemValue, setItemValue] = useState<string>(item.name);
 
   const handleEdit = () => {
-    console.log(item.name);
     if (itemValue !== item.name) {
       onEdit({ ...item, name: itemValue }); //passing argument back to parent
     }
@@ -31,7 +30,6 @@ const ListEntry: FC<IListEntryProps> = (props): ReactElement => {
   };
 
   const handleCheck = () => {
-    console.log(checked);
     onEdit({ ...item, collected: !checked });
     setChecked(!checked);
   };

@@ -23,12 +23,11 @@ const LoginPage: FC = (): ReactElement => {
     async (data: ILoginData) => {
       const loginResponse = await apiRequest<IUserProfile>(
         `${API_URL}/users/login`,
-        "POST",
+        "PUT",
         data,
       );
       if (loginResponse.token) {
         localStorage.setItem("token-shoppinglist", loginResponse.token);
-        console.log("signed in");
         navigate("/");
       }
 
@@ -37,7 +36,6 @@ const LoginPage: FC = (): ReactElement => {
   );
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("login");
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const emailData = data.get("email");
