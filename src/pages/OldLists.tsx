@@ -83,11 +83,12 @@ const OldLists: FC = (): ReactElement => {
 
   return (
     <>
-      <Typography className="subtitle" variant="h5">Old lists</Typography>
+      <Typography className="subtitle" variant="h4">Old lists</Typography>
       <Stack spacing={2} direction="column" alignItems="center">
         {data?.filter((list) => !list.active).map((list, index) => (
           <>
             <Box
+              key={"list-" + list.id}
               component="span"
               sx={{
                 p: 1,
@@ -95,7 +96,6 @@ const OldLists: FC = (): ReactElement => {
                 borderColor: "primary.dark",
                 width: "85%",
               }}
-              key={"list-" + list.title}
               onClick={() => handleExpandClick(index)}
             >
               <Box
@@ -105,10 +105,14 @@ const OldLists: FC = (): ReactElement => {
                   alignItems: "center",
                 }}
               >
-                <span>{dateConverter(list.date)}</span>
-                <span>{list.title}</span>
-                <span>{list.total} €</span>
-                <span>
+                <Typography variant="body2">
+                  {dateConverter(list.date)}
+                </Typography>
+
+                <Typography variant="h5">{list.title}</Typography>
+
+                <Typography>{list.total?.toFixed(2)} €</Typography>
+                <Box>
                   <ExpandMore
                     expand={isOpenCollapse === index}
                     onClick={handleExpandClick}
@@ -117,7 +121,7 @@ const OldLists: FC = (): ReactElement => {
                   >
                     <ExpandMoreIcon />
                   </ExpandMore>
-                </span>
+                </Box>
               </Box>
 
               <Collapse

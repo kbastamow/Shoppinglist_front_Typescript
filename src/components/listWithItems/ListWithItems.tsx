@@ -221,7 +221,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
     <Container
       sx={{ mt: 2, mb: 4 }}
     >
-      <Box sx={{ mb: 2, py: 2 }}>
+      <Box sx={{ py: 2 }}>
         <TextField
           size="small"
           value={newItem}
@@ -235,7 +235,7 @@ const ListWithItems: FC<IList> = (props): ReactElement => {
         </Button>
       </Box>
       <Box>
-        <Typography className="subtitle" variant="h5">
+        <Typography className="subtitle" variant="h4">
           {title}
         </Typography>
       </Box>

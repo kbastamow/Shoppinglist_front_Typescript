@@ -1,5 +1,5 @@
 import { EnumCategory } from "../types/EnumCategory";
-import { teal, lime, cyan, lightGreen, red, deepPurple, green, grey, yellow, indigo, amber, deepOrange, brown, lightBlue, indigo } from "@mui/material/colors";
+import { teal, lime, cyan, lightGreen, green, indigo, lightBlue } from "@mui/material/colors";
 
 export const categoryColors = {
   [EnumCategory.babyCare]: indigo[100],
@@ -24,7 +24,4 @@ export const categoryColors = {
   [EnumCategory.rice]: green[400],
   [EnumCategory.snacksAndSweets]: lightGreen[400],
   [EnumCategory.spices]: lime[400],
-
-
-
 };

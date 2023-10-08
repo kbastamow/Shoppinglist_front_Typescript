@@ -12,7 +12,7 @@ import { IUpdateItem } from "../../types/interfaces/IUpdateItem";
 import { IListItem } from "../../types/interfaces/IListItem";
 import { ItemContext } from "../../context/ItemContext/ItemContext";
 import { API_URL } from "../../helpers/apiurl";
-import { categoryColors } from "../../assets/colors";
+import { categoryColors } from "../../theme/colors";
 
 interface CategoryProps {
   itemId: string;

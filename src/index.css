@@ -1,38 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Nerko+One&family=Quattrocento+Sans:wght@400;700&display=swap');
-
-
-:root {
-  font-family: 'Quattrocento Sans', sans-serif !important;
-  line-height: 1.5;
-  font-weight: 400;
-  /* color-scheme: light dark;
-  background-color: #242424; */
-  /* background-color: #e8f5e9M; */
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-.title {
-  font-family: 'Love Ya Like A Sister', cursive !important;
-  padding-top: 30px;
-  color: green;
-}
-
-.subtitle {
-  padding: 10px 0;
-  font-family: 'Love Ya Like A Sister', cursive !important;
-}
-
 img {
   max-width: 80%;
   height: auto;
 }
 
 
-/* Define a keyframes animation named 'tilt' */
+/* Animation for shopping finish */
 @keyframes tilt {
   0% {
     transform: rotate(0deg); /* Start with no rotation */

@@ -1,6 +1,5 @@
-import { createTheme, ThemeOptions } from "@mui/material";
-import myFont from "https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Nerko+One&family=Quattrocento+Sans:wght@400;700&display=swap";
-import { black, cyan, green, grey, lime, yellow } from "@mui/material/colors";
+import { createTheme } from "@mui/material";
+import { cyan, green, grey, lime } from "@mui/material/colors";
 
 export const custom = createTheme({
   palette: {
@@ -19,7 +18,22 @@ export const custom = createTheme({
     },
   },
   typography: {
-    fontFamily: "Raleway, Arial",
+    fontFamily: "'Fira Sans', sans-serif",
+    h3: {
+      fontFamily: "'Love Ya Like A Sister', cursive",
+      color: green[600],
+      paddingTop: "30px",
+    },
+    h4: {
+      fontFamily: "'Love Ya Like A Sister', cursive",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+    },
+    h5: {
+      color: cyan[900],
+      fontWeight: "bold",
+      fontSize: "1rem",
+    },
   },
   components: {
     MuiButton: {
@@ -40,8 +54,6 @@ export const custom = createTheme({
               backgroundColor: lime[500],
               color: cyan[900],
             },
-
-            // fontFamily: "'Love Ya Like A Sister', cursive",
             fontWeight: "bold",
           }),
         }),

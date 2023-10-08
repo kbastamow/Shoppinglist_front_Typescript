@@ -31,7 +31,7 @@ const ActiveLists = () => {
 
   return (
     <>
-      <Typography className="subtitle" variant="h5">Active Lists</Typography>
+      <Typography className="subtitle" variant="h4">Active Lists</Typography>
       <Stack spacing={2} direction="column" alignItems="center">
         {data?.filter((list) => list.active).map((list) => (
           <Box
@@ -47,8 +47,14 @@ const ActiveLists = () => {
             key={list.id}
             onClick={() => navigate(`/lists/${list.id}`)}
           >
-            <Box>{dateConverter(list.date)}</Box>
-            <Box>{list.title}</Box>
+            <Box>
+              <Typography variant="body2">
+                {dateConverter(list.date)}
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="h5">{list.title}</Typography>
+            </Box>
           </Box>
         ))}
       </Stack>
