@@ -40,12 +40,6 @@ This is the frontend for a simple shopping list organiser app, where users can l
 - React Query devtools
 
 ## 📱App
-![video]("./src/assets/readme/appVideo.mp4")
-
-Preview
-
-![preview1](./src/assets/readme/shoppinglistA.png)
-![preview2](./src/assets/readme/shoppinglistB.png)
 
 ## 📂 Project structure
 
@@ -154,10 +148,9 @@ The user can
 - Order the list by categories
 - Order the list so that uncollected items appear on top
 
-<img src="./src/assets/readme/order.png" height="350" alt="order by category"></img>
-
 <img src="./src/assets/readme/items.png" height="350" alt="items"></img>
 
+<img src="./src/assets/readme/order.png" height="350" alt="order by category"></img>
 
 When shopping is over, the user can
 
@@ -166,8 +159,6 @@ When shopping is over, the user can
 - Mark all items as checked
 
 <img src="./src/assets/readme/checkout.png" height="350" alt="checkout"></img>
-
-
 
 ### 🌐 Context
 
