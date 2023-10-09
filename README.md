@@ -41,7 +41,7 @@ This is the frontend for a simple shopping list organiser app, where users can l
 
 ## 📱App
 
-
+https://github.com/kbastamow/Shoppinglist_front_Typescript/assets/112511800/8bf4ec41-a3ca-474a-b815-5c907462d6f4
 <video src="./src/assets/readme/appVideo.mp4" width=200 controls></video>
 
 
