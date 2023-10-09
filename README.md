@@ -41,6 +41,10 @@ This is the frontend for a simple shopping list organiser app, where users can l
 
 ## 📱App
 
+
+<video src="./src/assets/readme/appVideo.mp4" width=200 controls></video>
+
+
 ## 📂 Project structure
 
 ```
